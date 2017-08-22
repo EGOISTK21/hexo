@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="EGOISTK21" />
+
+
+
+<meta name="description" content="今天晚上做了一下LeetCode上的Median of Two Sorted Arrays这道题，没想到一次性通过了。随即想要归纳整理一下排序算法，废话少说，我们开始吧。  选择排序这是一种最简单直观的排序算法，它的工作原理如下：每一趟从待排序的数列中选出最小的（最大的）一个元素，顺序放到已经排好序的数列的最后，直到所有待排元素全部排好。选择排序是稳定的排序算法，最坏时间复杂度是O(n^2)，最优">
+<meta name="keywords" content="Java,Algorithm,LeetCode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java排序算法专题">
+<meta property="og:url" content="https://egoistk21.xyz/2016/09/10/Java排序算法专题/index.html">
+<meta property="og:site_name" content="EGOISTK21&#39;s blog">
+<meta property="og:description" content="今天晚上做了一下LeetCode上的Median of Two Sorted Arrays这道题，没想到一次性通过了。随即想要归纳整理一下排序算法，废话少说，我们开始吧。  选择排序这是一种最简单直观的排序算法，它的工作原理如下：每一趟从待排序的数列中选出最小的（最大的）一个元素，顺序放到已经排好序的数列的最后，直到所有待排元素全部排好。选择排序是稳定的排序算法，最坏时间复杂度是O(n^2)，最优">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-22T10:17:45.325Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java排序算法专题">
+<meta name="twitter:description" content="今天晚上做了一下LeetCode上的Median of Two Sorted Arrays这道题，没想到一次性通过了。随即想要归纳整理一下排序算法，废话少说，我们开始吧。  选择排序这是一种最简单直观的排序算法，它的工作原理如下：每一趟从待排序的数列中选出最小的（最大的）一个元素，顺序放到已经排好序的数列的最后，直到所有待排元素全部排好。选择排序是稳定的排序算法，最坏时间复杂度是O(n^2)，最优">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Java排序算法专题 | EGOISTK21&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.3.2/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.12.1/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">EGOISTK21</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">弱者抱以命，强者谦以运。</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Facebook" href="https://www.facebook.com/EGOISTK21" title="Facebook"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/EGOISTK21" title="Twitter"></a>
+                            
+                                <a class="fa 新浪微博" href="http://www.weibo.com/kinged" title="新浪微博"></a>
+                            
+                                <a class="fa 简书" href="http://www.jianshu.com/users/894109905307/timeline" title="简书"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/egoistk21" title="LinkedIn"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/EGOISTK21" title="GitHub"></a>
+                            
+                                <a class="fa V2EX" href="https://www.v2ex.com/member/EGOISTK21" title="V2EX"></a>
+                            
+                                <a class="fa Email" href="mailto:egoistk21@gmail.com" title="Email"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试题/">笔试题</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://egoistk21.github.io/OurLoveStory/">😘</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">混凝土方块瞬间移动师</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">EGOISTK21</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">EGOISTK21</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">弱者抱以命，强者谦以运。</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Facebook" target="_blank" href="https://www.facebook.com/EGOISTK21" title="Facebook"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/EGOISTK21" title="Twitter"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://www.weibo.com/kinged" title="新浪微博"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/894109905307/timeline" title="简书"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/egoistk21" title="LinkedIn"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/EGOISTK21" title="GitHub"></a>
+                            
+                                <a class="fa V2EX" target="_blank" href="https://www.v2ex.com/member/EGOISTK21" title="V2EX"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:egoistk21@gmail.com" title="Email"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Java排序算法专题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/10/Java排序算法专题/" class="article-date">
+      <time datetime="2016-09-09T16:12:20.000Z" itemprop="datePublished">2016-09-10</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java排序算法专题
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LeetCode/">LeetCode</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>今天晚上做了一下LeetCode上的<a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" rel="external">Median of Two Sorted Arrays</a>这道题，没想到一次性通过了。随即想要归纳整理一下排序算法，废话少说，我们开始吧。</p>
+<hr>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><p>这是一种最简单直观的排序算法，它的工作原理如下：每一趟从待排序的数列中选出最小的（最大的）一个元素，顺序放到已经排好序的数列的最后，直到所有待排元素全部排好。选择排序是<a href="https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95#.E5.88.86.E9.A1.9E" target="_blank" rel="external">稳定的排序算法</a>，最坏<a href="https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6" target="_blank" rel="external">时间复杂度</a>是O(n^2)，最优时间复杂度是O(n^2)，平均时间复杂度是O(n^2)。</p>
+<p>下面是对{1, 3, 5, 7, 9, 2, 4, 6, 8, 0}进行选择排序的具体过程</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">|1 3 5 7 9 2 4 6 8 0  选择第一小的数与0位交换</div><div class="line"> i j</div><div class="line">1 3 5 7 9 2 4 6 8 0</div><div class="line">i                 j</div><div class="line">                 min</div><div class="line">0| 3 5 7 9 2 4 6 8 1  选择第二小的数与1位交换</div><div class="line">   i j</div><div class="line">0 3 5 7 9 2 4 6 8 1</div><div class="line">  i               j</div><div class="line">                 min</div><div class="line">0 1| 5 7 9 2 4 6 8 3  选择第三小的数与2位交换</div><div class="line">0 1 2| 7 9 5 4 6 8 3  选择第四小的数与3位交换</div><div class="line">0 1 2 3| 9 5 4 6 8 7  选择第五小的数与4位交换</div><div class="line">0 1 2 3 4| 5 9 6 8 7  选择第六小的数与5位交换</div><div class="line">0 1 2 3 4 5| 9 6 8 7  选择第七小的数与6位交换</div><div class="line">0 1 2 3 4 5 6| 9 8 7  选择第八小的数与7位交换</div><div class="line">0 1 2 3 4 5 6 7| 8 9  选择第九小的数与8位交换</div><div class="line">0 1 2 3 4 5 6 7 8| 9  待排只剩一个数，排序结束</div></pre></td></tr></table></figure>
+<p>选择排序(从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selectSort</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> min, temp, length = nums.length;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">        min = i;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; length; j++) &#123;</div><div class="line">            <span class="keyword">if</span> (nums[min] &gt; nums[j]) &#123;</div><div class="line">                min = j;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        temp = nums[i];</div><div class="line">        nums[i] = nums[min];</div><div class="line">        nums[min] = temp;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p>这也是一种简单直观的排序算法，它的工作原理如下：构建有序序列，即对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。插入排序是稳定的排序算法，最坏时间复杂度是O(n^2)，最优时间复杂度是O(n)，平均时间复杂度是O(n^2)。</p>
+<p>下面是对{1, 3, 5, 7, 9, 2, 4, 6, 8, 0}进行插入排序的具体过程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">1 3 5 7 9 2 4 6 8 0</div><div class="line">1 3 5 7 9 9 4 6 8 0  temp=2</div><div class="line">1 3 5 7 7 9 4 6 8 0</div><div class="line">1 3 5 5 7 9 4 6 8 0</div><div class="line">1 3 3 5 7 9 4 6 8 0</div><div class="line">1 2 3 5 7 9 4 6 8 0</div><div class="line">1 2 3 5 7 9 9 6 8 0  temp=4</div><div class="line">1 2 3 5 7 7 9 6 8 0</div><div class="line">1 2 3 5 5 7 9 6 8 0</div><div class="line">1 2 3 4 5 7 9 6 8 0</div><div class="line">1 2 3 4 5 7 9 9 8 0  temp=6</div><div class="line">1 2 3 4 5 7 7 9 8 0</div><div class="line">1 2 3 4 5 6 7 9 8 0</div><div class="line">1 2 3 4 5 6 7 9 9 0  temp=8</div><div class="line">1 2 3 4 5 6 7 8 9 0</div><div class="line">1 2 3 4 5 6 7 8 9 9  temp=0</div><div class="line">1 2 3 4 5 6 7 8 8 9</div><div class="line">1 2 3 4 5 6 7 7 8 9</div><div class="line">1 2 3 4 5 6 6 7 8 9</div><div class="line">1 2 3 4 5 5 6 7 8 9</div><div class="line">1 2 3 4 4 5 6 7 8 9</div><div class="line">1 2 3 3 4 5 6 7 8 9</div><div class="line">1 2 2 3 4 5 6 7 8 9</div><div class="line">1 1 2 3 4 5 6 7 8 9</div><div class="line">0 1 2 3 4 5 6 7 8 9</div></pre></td></tr></table></figure>
+<p>插入排序(从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> temp, length = nums.length;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; length; i++) &#123;</div><div class="line">        temp = nums[i];</div><div class="line">        <span class="keyword">int</span> j = i;</div><div class="line">        <span class="keyword">for</span> (; j &gt;= <span class="number">1</span>&amp;&amp;temp &lt; nums[j - <span class="number">1</span>]; j--) &#123;</div><div class="line">            nums [j] = nums[j - <span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">        nums[j] = temp;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p>希尔排序，也称递减增量排序算法，是插入排序的一种高速而稳定的改进版本。我把希尔排序叫做分组插入排序，它的工作原理如下：先把要排序的序列元素以序列长度的1/2为间隔(向下取整)两两分为一组，对每组分别进行插入排序，排完后再以序列长度的1/4为间隔(向下取整)分组，对每组分别进行插入排序，重复上述操作，直至间隔为一，即最后一趟为普通的插入排序(此时序列已基本有序)。希尔排序是不稳定的排序算法，时间复杂度取决于分组间隔gap的取值，目前最佳版本的最坏时间复杂度是O(n(lgn)^2)。一般情况下，最坏时间复杂度是O(n^2)，最优时间复杂度是O(n)。</p>
+<p>下面是对{1, 3, 5, 7, 9, 2, 4, 6, 8, 0}进行插入排序的具体过程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">1 3 5 7 9 2 4 6 8 0  gap=5</div><div class="line">1 3 5 7 9 2 4 6 8 9  temp=0</div><div class="line">1 3 5 7 0 2 4 6 8 9  gap=2</div><div class="line">1 3 5 7 5 2 4 6 8 9  temp=0</div><div class="line">1 3 1 7 5 2 4 6 8 9</div><div class="line">0 3 1 7 5 2 4 6 8 9</div><div class="line">0 3 1 7 5 2 5 6 8 9  temp=4</div><div class="line">0 3 1 7 4 2 5 6 8 9</div><div class="line">0 3 1 7 4 7 5 6 8 9  temp=2</div><div class="line">0 3 1 3 4 7 5 6 8 9</div><div class="line">0 2 1 3 4 7 5 6 8 9</div><div class="line">0 2 1 3 4 7 5 7 8 9  temp=6</div><div class="line">0 2 1 3 4 6 5 7 8 9  gap=1</div><div class="line">0 2 2 3 4 6 5 7 8 9  temp=1</div><div class="line">0 1 2 3 4 6 5 7 8 9</div><div class="line">0 1 2 3 4 6 6 7 8 9  temp=5</div><div class="line">0 1 2 3 4 5 6 7 8 9</div></pre></td></tr></table></figure>
+<p>希尔排序(从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shellSort</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> temp, length = nums.length;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> gap = length/<span class="number">2</span>; gap &gt; <span class="number">0</span>; gap /= <span class="number">2</span>) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gap ; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + gap; j &lt; length; j += gap) &#123;</div><div class="line">                temp = nums[j];</div><div class="line">                <span class="keyword">int</span> k = j;</div><div class="line">                <span class="keyword">for</span> (; k &gt;= gap&amp;&amp;temp &lt; nums[k - gap]; k -= gap) &#123;</div><div class="line">                    nums[k] = nums[k - gap];</div><div class="line">                &#125;</div><div class="line">                nums[k] = temp;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p>冒泡排序，是一种简单的排序算法。因其排序过程中较大(或小)元素会慢慢“浮到”顶部，就像鱼吐泡泡而得名。它的工作原理如下：重复地遍历要排序的序列，一次比较两个元素，如果它们的顺序错误就把它们交换过来，直到序列有序。冒泡排序是稳定的排序算法，最坏时间复杂度是O(n^2)，最优时间复杂度是O(n)，平均时间复杂度是O(n^2)。</p>
+<p>下面是对{1, 3, 5, 7, 9, 2, 4, 6, 8, 0}进行冒泡排序的具体过程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">|1 3 5 7 9 2 4 6 8 0</div><div class="line">|1 3 5 7 9 2 4 6 0 8</div><div class="line">|1 3 5 7 9 2 4 0 6 8</div><div class="line">|1 3 5 7 9 2 0 4 6 8</div><div class="line">|1 3 5 7 9 0 2 4 6 8</div><div class="line">|1 3 5 7 0 9 2 4 6 8</div><div class="line">|1 3 5 0 7 9 2 4 6 8</div><div class="line">|1 3 0 5 7 9 2 4 6 8</div><div class="line">|1 0 3 5 7 9 2 4 6 8</div><div class="line">0 1| 3 5 7 9 2 4 6 8</div><div class="line">0 1| 3 5 7 2 9 4 6 8</div><div class="line">0 1| 3 5 2 7 9 4 6 8</div><div class="line">0 1| 3 2 5 7 9 4 6 8</div><div class="line">0 1 2 3| 5 7 9 4 6 8</div><div class="line">0 1 2 3| 5 7 4 9 6 8</div><div class="line">0 1 2 3| 5 4 7 9 6 8</div><div class="line">0 1 2 3 4 5| 7 9 6 8</div><div class="line">0 1 2 3 4 5| 7 6 9 8</div><div class="line">0 1 2 3 4 5 6 7| 9 8</div><div class="line">0 1 2 3 4 5 6 7 8 9|</div></pre></td></tr></table></figure>
+<p>冒泡排序(从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> length = nums.length;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = length - <span class="number">1</span>; j &gt; i; j--) &#123;</div><div class="line">            <span class="keyword">if</span> (nums[j - <span class="number">1</span>] &gt; nums[j]) &#123;</div><div class="line">                <span class="keyword">int</span> temp = nums[j - <span class="number">1</span>];</div><div class="line">                nums[j - <span class="number">1</span>] = nums[j];</div><div class="line">                nums[j] = temp;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>快速排序是由东尼·霍尔所发展的一种排序算法。在平均状况下，排序 n 个项目要Ο(nlogn)次比较。在最坏状况下则需要Ο(n^2)次比较，但这种状况并不常见。事实上，快速排序通常明显比其他Ο(nlogn) 算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地被实现出来，且在大部分真实世界的数据，可以决定设计的选择，减少所需时间的二次方项之可能性。快速排序是不稳定的排序算法，最坏时间复杂度是O(n^2)，最优时间复杂度是O(nlogn)，平均时间复杂度是O(nlogn)。</p>
+<p>下面是对{1, 3, 5, 7, 9, 2, 4, 6, 8, 0}进行快速排序(递归版)的具体过程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">                     第一遍循环</div><div class="line">                     取pivot=1</div><div class="line">                     1 3 5 7 9 2 4 6 8 0</div><div class="line">                     i                 j</div><div class="line">                     先从尾部j开始，找到比1小的数字往i的位置复制</div><div class="line">                     0 3 5 7 9 2 4 6 8 0</div><div class="line">                       i               j</div><div class="line">                     0比1小，被复制到i的位置，复制之后i++</div><div class="line">                     0 3 5 7 9 2 4 6 8 3</div><div class="line">                       i             j</div><div class="line">                     这时候要从头部i开始，找到比1大的数字往j的位置复制</div><div class="line">                     3比1大，被复制到j的位置，复制之后j--</div><div class="line">                     0 3 5 7 9 2 4 6 8 3</div><div class="line">                       i</div><div class="line">                       j</div><div class="line">                     再次从j开始寻找比1小的数字，但是没找到，直到i和j相遇（i=j）</div><div class="line">                     第一遍循环结束</div><div class="line">                     0 1 5 7 9 2 4 6 8 3</div><div class="line">                     把pivot复制到循环结束时i的位置</div><div class="line">                     此时pivot把数组分成两部分&#123;0&#125;和&#123;5, 7, 9, 2, 4, 6, 8, 3&#125;</div><div class="line">                  </div><div class="line">                第二次循环分两部分进行</div><div class="line">                </div><div class="line">第一部分                                     第二部分</div><div class="line">0                                          取pivot=5</div><div class="line">只有一个数，不用排序                           5 7 9 2 4 6 8 3</div><div class="line">第一部分结束                                 i             j</div><div class="line">                                           和第一遍循环一样先从j开始...</div><div class="line">                                            3 7 9 2 4 6 8 3</div><div class="line">                                              i           j</div><div class="line">                                            3 7 9 2 4 6 8 7</div><div class="line">                                              i         j</div><div class="line">                                            3 4 9 2 4 6 8 7</div><div class="line">                                                i   j</div><div class="line">                                            3 4 9 2 9 6 8 7</div><div class="line">                                                i</div><div class="line">                                                  j</div><div class="line">                                            3 4 2 2 9 6 8 7</div><div class="line">                                                  i</div><div class="line">                                                  j</div><div class="line">                                            3 4 2 5 9 6 8 7</div><div class="line">                                            第二遍循环结束</div><div class="line">                                            只有第二部分进行第三次循环</div><div class="line">                                            此时pivot把数组分成两部分&#123;3, 4, 2&#125;和&#123;9, 6, 8, 7&#125;</div><div class="line">                                            不断循环，排序，分组，直到最后每一组都只剩1个数</div><div class="line">               最后“将所有组合并”（实际上数组没有分组，只是每次对部分数据进行操作）</div><div class="line">               得到&#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;</div></pre></td></tr></table></figure>
+<p>快速排序(递归版、从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">recursiveQuickSort</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> head, <span class="keyword">int</span> tail)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> i = head, j = tail;</div><div class="line">    <span class="keyword">int</span> pivot = nums[head];</div><div class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</div><div class="line">        <span class="keyword">while</span> (i &lt; j) &#123;</div><div class="line">            <span class="keyword">if</span> (pivot &gt;= nums[j]) &#123;</div><div class="line">                nums[i++] = nums[j];</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">            j--;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> (i &lt; j) &#123;</div><div class="line">            <span class="keyword">if</span> (pivot &lt;= nums[i]) &#123;</div><div class="line">                nums[j--] = nums[i];</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">            i++;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    nums[i] = pivot;</div><div class="line">    <span class="keyword">if</span> (i - <span class="number">1</span> - head &gt; <span class="number">0</span>) &#123;</div><div class="line">        recursiveQuickSort(nums, head, i - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (tail - i - <span class="number">1</span> &gt; <span class="number">0</span>) &#123;</div><div class="line">        recursiveQuickSort(nums, i + <span class="number">1</span>, tail);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong><a href="http://egoistk21.xyz/2017/02/17/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B8%93%E9%A2%98%E7%BB%AD/#快速排序">快速排序非递归版</a></strong></p>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" rel="external">Median of Two Sorted Arrays</a>这道题我用的排序法就是归并排序，归并排序是建立在归并操作上的一种有效的排序算法。该算法是采用分治法的一个非常典型的应用。它的原理如下：先申请一个空间用于存储排序后的序列，大小为两个已经排序的序列大小之和。在两个已经排序的序列头部分别放置指针，比较指针所指元素的大小，较小的(或较大的)复制到刚刚申请的新序列空间，该指针后移，重复比较、复制到新序列尾部、后移指针，直到遍历完其中一个序列，则另一个序列的剩余元素全部原序复制到新序列尾部。归并排序是稳定的排序算法，最坏时间复杂度是O(nlogn)，最优时间复杂度是O(n)，平均时间复杂度是O(nlogn)，需要O(n)额外空间。</p>
+<p>下面是对{1, 3, 5, 7, 9, 2, 4, 6, 8, 0}进行归并排序(递归版)的具体过程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">                      &#123;1 3 5 7 9 2 4 6 8 0&#125;</div><div class="line">第一层递归         &#123;1 3 5 7 9&#125;    |     &#123;2 4 6 8 0&#125;</div><div class="line">第二层递归       &#123;1 3 5&#125; | &#123;7 9&#125;  |   &#123;2 4 6&#125; | &#123;8 0&#125;</div><div class="line">第三层递归     &#123;1 3&#125; |&#123;5&#125;|&#123;7&#125;|&#123;9&#125; |  &#123;2 4&#125;|&#123;6&#125;|&#123;8&#125;|&#123;0&#125;</div><div class="line">第四层递归    &#123;1&#125;|&#123;3&#125;|&#123;5&#125;|&#123;7&#125;|&#123;9&#125; |&#123;2&#125;|&#123;4&#125;|&#123;6&#125;|&#123;8&#125;|&#123;0&#125;</div><div class="line">第一层归并     &#123;1 3&#125; |&#123;5&#125;| &#123;7 9&#125;  |  &#123;2 4&#125;|&#123;6&#125;| &#123;0 8&#125;</div><div class="line">第二层归并       &#123;1 3 5&#125; | &#123;7 9&#125;  |   &#123;2 4 6&#125; | &#123;0 8&#125;</div><div class="line">第三层归并         &#123;1 3 5 7 9&#125;    |     &#123;0 2 4 6 8&#125;</div><div class="line">第四层归并              &#123;0 1 2 3 4 5 6 7 8 9&#125;</div></pre></td></tr></table></figure>
+<p>归并排序(递归版、从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> head, <span class="keyword">int</span> median, <span class="keyword">int</span> tail)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span>[] nums1 = <span class="keyword">new</span> <span class="keyword">int</span>[median - head + <span class="number">1</span>];</div><div class="line">    <span class="keyword">int</span>[] nums2 = <span class="keyword">new</span> <span class="keyword">int</span>[tail - median];</div><div class="line">    <span class="keyword">int</span> length1 = nums1.length, length2 = nums2.length;</div><div class="line">    System.arraycopy(nums, head, nums1, <span class="number">0</span>, length1);</div><div class="line">    System.arraycopy(nums, median + <span class="number">1</span>, nums2, <span class="number">0</span>, length2);</div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = head;</div><div class="line">    <span class="keyword">while</span> (i &lt; length1&amp;&amp;j &lt; length2) &#123;</div><div class="line">        nums[k++] = (nums1[i] &lt; nums2[j])?nums1[i++]:nums2[j++];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">while</span> (i &lt; length1) &#123;</div><div class="line">        nums[k++] = nums1[i++];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">while</span> (j &lt; length2) &#123;</div><div class="line">        nums[k++] = nums2[j++];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">recursiveMergeSort</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> head, <span class="keyword">int</span> tail)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> median = (head + tail)/<span class="number">2</span>;</div><div class="line">    <span class="keyword">if</span> (median != tail) &#123;</div><div class="line">        recursiveMergeSort(nums, head, median);</div><div class="line">        recursiveMergeSort(nums, median + <span class="number">1</span>, tail);</div><div class="line">    &#125;</div><div class="line">    merge(nums, head, median, tail);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong><a href="http://egoistk21.xyz/2017/02/17/Java%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B8%93%E9%A2%98%E7%BB%AD/#归并排序">归并排序非递归版</a></strong></p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p>堆排序，是指利用堆这种数据结构所设计的一种排序算法。堆排序的时间复杂度为O(nlogn)，是不稳定的排序算法，且具有空间原址性：任何时候都只需要常数个额外的元素空间存储临时数据。<br><a href="http://www.cnblogs.com/skywang12345/p/3610390.html" target="_blank" rel="external">二叉堆图文介绍 参考</a></p>
+<p><a href="http://www.cnblogs.com/skywang12345/p/3602162.html" target="_blank" rel="external">堆排序图文介绍 参考</a></p>
+<p>堆排序(大根堆、从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">maxHeapDown</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> head, <span class="keyword">int</span> tail)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> p = head, l = <span class="number">2</span>*p + <span class="number">1</span>, r = l + <span class="number">1</span>;</div><div class="line">    <span class="keyword">int</span> tmp = nums[p];</div><div class="line">    <span class="keyword">for</span> (; l &lt;= tail; p = l,l = <span class="number">2</span>*l + <span class="number">1</span>,r = l + <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (l &lt; tail &amp;&amp; nums[l] &lt; nums[r]) &#123;</div><div class="line">            l = r;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (tmp &gt;= nums[l]) &#123;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            nums[p] = nums[l];</div><div class="line">            nums[l]= tmp;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">heapSort</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> i, tmp, length = nums.length;</div><div class="line">    <span class="keyword">for</span> (i = length/<span class="number">2</span> - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">        maxHeapDown(nums, i, length - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (i = length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</div><div class="line">        tmp = nums[<span class="number">0</span>];</div><div class="line">        nums[<span class="number">0</span>] = nums[i];</div><div class="line">        nums[i] = tmp;</div><div class="line">        maxHeapDown(nums, <span class="number">0</span>, i - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>以上7种常见排序都是基于比较的排序，基于比较的排序的时间复杂度的极限是O(nlogn)，下面我给大家介绍三种基于计算的排序算法，它们都是线性的，时间复杂度为O(n)。</strong></p>
+<h3 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h3><p>桶排序的思想特别简单，就是找出所给序列中最大的元素，新建一个大小为最大元素加一的序列并初始化为全0，所给序列中元素的大小与新建的序列的下标相对应，遍历所给序列，每遇到一个元素，以这个元素为下标的新序列的元素就自加1。桶排序是稳定的排序算法，时间复杂度为O(n)，需要O(k)额外空间。</p>
+<p>下面我们分析一下对数组{1, 3, 5, 7, 9, 2, 4, 6, 8, 0， 0}进行桶排序的过程</p>
+<p>1、遍历所给数组得到最大元素9</p>
+<p>2、新建一个长度为9+1的数组，并初始化为全0 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}</p>
+<p>3、遍历所给数组，遇到第一个元素1，将新建数组中下标为1的元素自加1 {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}</p>
+<p>4、同理，遇到第二个元素3，将新建数组中下标为3的元素自加1 {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0}</p>
+<p>5、遍历完成后，新数组为 {2, 1, 1, 1, 1, 1, 1, 1, 1, 1}</p>
+<p>6、遍历新数组，当遇到非零元素时，为所给数组赋予非零元素个的下标的值，如非零元素2，下标为0，则对所给序列的前两个元素赋值0</p>
+<p>桶排序(从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxElemOfNums</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> max = nums[<span class="number">0</span>];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</div><div class="line">        <span class="keyword">if</span> (nums[i] &gt; max) &#123;</div><div class="line">            max = nums[i] + <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> max;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bucketSort</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> length = nums.length, max = maxElemOfNums(nums), i, j;</div><div class="line">    <span class="keyword">int</span>[] bucket = <span class="keyword">new</span> <span class="keyword">int</span>[max];</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">        bucket[nums[i]]++;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>,j = <span class="number">0</span>; i &lt; max; i++) &#123;</div><div class="line">        <span class="keyword">while</span> ((bucket[i]--) &gt; <span class="number">0</span>) &#123;</div><div class="line">            nums[j++] = i;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h3><p>计数排序是对桶排序的一种改进，其基本思想是：对于给定序列中的元素x，确定小于(大于)x的元素个数。利用这一信息，可以直接把x放到它在输出序列中的位置上。计数排序是稳定的排序算法，时间复杂度为O(n+k)，需要O(n+k)额外空间。</p>
+<p>计数排序(从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">countSort</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> length = nums.length, max = maxElemOfNums(nums), i, j;</div><div class="line">    <span class="keyword">int</span>[] temp = <span class="keyword">new</span> <span class="keyword">int</span>[length];</div><div class="line">    System.arraycopy(nums, <span class="number">0</span>, temp, <span class="number">0</span>, length);</div><div class="line">    <span class="keyword">int</span>[] bucket = <span class="keyword">new</span> <span class="keyword">int</span>[max];</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">        bucket[temp[i]]++;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; max; i++) &#123;</div><div class="line">        bucket[i] += bucket[i - <span class="number">1</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">        nums[bucket[temp[i]] - <span class="number">1</span>] = temp[i];</div><div class="line">        bucket[temp[i]]--;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3><p>基数排序是对计数排序的一种改进，它是这样实现的：将所有待比较数值(正整数)统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序(计数排序)。这样从最低位排序一直到最高位排序完成以后，数列就变成一个有序序列。基数排序是稳定的排序算法，时间复杂度为O(kn)，需要O(n)额外空间。</p>
+<p>基数排序(从小到大)的Java实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">radixSort</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> exp, length = nums.length, max = maxElemOfNums(nums), i;</div><div class="line">    <span class="keyword">for</span> (exp = <span class="number">1</span>; (max - <span class="number">1</span>)/exp &gt; <span class="number">0</span>; exp *= <span class="number">10</span>) &#123;</div><div class="line">        <span class="keyword">int</span>[] temp = <span class="keyword">new</span> <span class="keyword">int</span>[length];</div><div class="line">        <span class="keyword">int</span>[] buckets = <span class="keyword">new</span> <span class="keyword">int</span>[max];</div><div class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">            buckets[(nums[i]/exp)%<span class="number">10</span>]++;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; max; i++) &#123;</div><div class="line">            buckets[i] += buckets[i - <span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> (i = length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">            temp[buckets[(nums[i]/exp)%<span class="number">10</span>] - <span class="number">1</span>] = nums[i];</div><div class="line">            buckets[(nums[i]/exp)%<span class="number">10</span>]--;</div><div class="line">        &#125;</div><div class="line">        System.arraycopy(temp, <span class="number">0</span>, nums, <span class="number">0</span>, length);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/09/10/Java排序算法专题/">Java排序算法专题</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">EGOISTK21</a></p>
+        <p><span>发布时间:</span>2016-09-10, 00:12:20</p>
+        <p><span>最后更新:</span>2017-08-22, 18:17:45</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/09/10/Java排序算法专题/" title="Java排序算法专题">https://egoistk21.xyz/2016/09/10/Java排序算法专题/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://egoistk21.xyz/2016/09/10/Java排序算法专题/　　作者: EGOISTK21" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/09/23/Longest Palindromic Substring/">
+                    Longest Palindromic Substring
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/09/06/Longest Substring Without Repeating Characters/">
+                    Longest Substring Without Repeating Characters
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#选择排序"><span class="toc-number">1.</span> <span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入排序"><span class="toc-number">2.</span> <span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#希尔排序"><span class="toc-number">3.</span> <span class="toc-text">希尔排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#冒泡排序"><span class="toc-number">4.</span> <span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快速排序"><span class="toc-number">5.</span> <span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#归并排序"><span class="toc-number">6.</span> <span class="toc-text">归并排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆排序"><span class="toc-number">7.</span> <span class="toc-text">堆排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#桶排序"><span class="toc-number">8.</span> <span class="toc-text">桶排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计数排序"><span class="toc-number">9.</span> <span class="toc-text">计数排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基数排序"><span class="toc-number">10.</span> <span class="toc-text">基数排序</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-facebook bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+            <a href="#" class="fa fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到Linkedin"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给QQ好友"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+            <a href="#" class="fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Java排序算法专题　| EGOISTK21's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/09/23/Longest Palindromic Substring/" title="上一篇: Longest Palindromic Substring">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/09/06/Longest Substring Without Repeating Characters/" title="下一篇: Longest Substring Without Repeating Characters">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/Java排序算法专题续/">Java排序算法专题续</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/16/Java引用和clone方法总结/">Java引用和clone方法总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/浅谈Java反射二/">浅谈Java反射二</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/12/浅谈Java反射一/">浅谈Java反射一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/ZigZag Conversion/">ZigZag Conversion</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/23/Longest Palindromic Substring/">Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/10/Java排序算法专题/">Java排序算法专题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Longest Substring Without Repeating Characters/">Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2017 EGOISTK21
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+             post: ".article-entry a[href], .copyright a[href]", 
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

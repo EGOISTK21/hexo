@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="EGOISTK21" />
+
+
+
+<meta name="description" content="前几天在写WORKS APPLICATIONS的两题笔试题，就没空写博客了。现在写完了，先分享一下第一个题Magic Cube里遇到的知识点“引用和clone方法”。详细的题解请关注后续博客。 先来说说我是怎么遇到这个知识点的，在解题过程中，我写了一个包含三维数组的类和一个递归方法，大概如下： 1234567891011121314151617181920212223242526272829303">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java引用和clone方法总结">
+<meta property="og:url" content="https://egoistk21.xyz/2016/10/16/Java引用和clone方法总结/index.html">
+<meta property="og:site_name" content="EGOISTK21&#39;s blog">
+<meta property="og:description" content="前几天在写WORKS APPLICATIONS的两题笔试题，就没空写博客了。现在写完了，先分享一下第一个题Magic Cube里遇到的知识点“引用和clone方法”。详细的题解请关注后续博客。 先来说说我是怎么遇到这个知识点的，在解题过程中，我写了一个包含三维数组的类和一个递归方法，大概如下： 1234567891011121314151617181920212223242526272829303">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%981.jpg">
+<meta property="og:image" content="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%982.jpg">
+<meta property="og:image" content="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%983.jpg">
+<meta property="og:image" content="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%984.jpg">
+<meta property="og:image" content="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%985.jpg">
+<meta property="og:image" content="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%986.jpg">
+<meta property="og:updated_time" content="2017-02-27T09:28:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java引用和clone方法总结">
+<meta name="twitter:description" content="前几天在写WORKS APPLICATIONS的两题笔试题，就没空写博客了。现在写完了，先分享一下第一个题Magic Cube里遇到的知识点“引用和clone方法”。详细的题解请关注后续博客。 先来说说我是怎么遇到这个知识点的，在解题过程中，我写了一个包含三维数组的类和一个递归方法，大概如下： 1234567891011121314151617181920212223242526272829303">
+<meta name="twitter:image" content="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%981.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Java引用和clone方法总结 | EGOISTK21&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.3.2/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.12.1/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">EGOISTK21</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">弱者抱以命，强者谦以运。</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Facebook" href="https://www.facebook.com/EGOISTK21" title="Facebook"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/EGOISTK21" title="Twitter"></a>
+                            
+                                <a class="fa 新浪微博" href="http://www.weibo.com/kinged" title="新浪微博"></a>
+                            
+                                <a class="fa 简书" href="http://www.jianshu.com/users/894109905307/timeline" title="简书"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/egoistk21" title="LinkedIn"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/EGOISTK21" title="GitHub"></a>
+                            
+                                <a class="fa V2EX" href="https://www.v2ex.com/member/EGOISTK21" title="V2EX"></a>
+                            
+                                <a class="fa Email" href="mailto:egoistk21@gmail.com" title="Email"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试题/">笔试题</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://egoistk21.github.io/OurLoveStory/">😘</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">混凝土方块瞬间移动师</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">EGOISTK21</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">EGOISTK21</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">弱者抱以命，强者谦以运。</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Facebook" target="_blank" href="https://www.facebook.com/EGOISTK21" title="Facebook"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/EGOISTK21" title="Twitter"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://www.weibo.com/kinged" title="新浪微博"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/894109905307/timeline" title="简书"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/egoistk21" title="LinkedIn"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/EGOISTK21" title="GitHub"></a>
+                            
+                                <a class="fa V2EX" target="_blank" href="https://www.v2ex.com/member/EGOISTK21" title="V2EX"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:egoistk21@gmail.com" title="Email"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Java引用和clone方法总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/16/Java引用和clone方法总结/" class="article-date">
+      <time datetime="2016-10-16T09:15:36.000Z" itemprop="datePublished">2016-10-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java引用和clone方法总结
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>前几天在写WORKS APPLICATIONS的两题笔试题，就没空写博客了。现在写完了，先分享一下第一个题Magic Cube里遇到的知识点“引用和clone方法”。详细的题解请关注后续博客。</p>
+<p>先来说说我是怎么遇到这个知识点的，在解题过程中，我写了一个包含三维数组的类和一个递归方法，大概如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cube</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> len;		<span class="comment">//立方体边长</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[][][] cells;<span class="comment">//立方体点阵</span></div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cube</span><span class="params">(<span class="keyword">int</span> len, <span class="keyword">int</span>[][][] cells)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.len = len;</div><div class="line">        <span class="keyword">this</span>.cells = cells;</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">    <span class="comment">//省略一些代码	</span></div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">//省略一些代码</span></div><div class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        <span class="keyword">int</span> N = sc.nextInt();</div><div class="line">        Cube[] smallCubes = <span class="keyword">new</span> Cube[N];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</div><div class="line">            <span class="keyword">int</span> len = sc.nextInt();</div><div class="line">            Ns = <span class="keyword">new</span> <span class="keyword">int</span>[len][len][len];</div><div class="line">System.out.println(Ns);<span class="comment">//获取Ns的哈希码</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; len; k++) &#123;</div><div class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">0</span>; l &lt; len; l++) &#123;</div><div class="line">                        Ns[j][k][l] = sc.nextInt();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            smallCubes[i] = <span class="keyword">new</span> Cube(len, Ns);</div><div class="line">System.out.println(smallCubes[i].cells);<span class="comment">//获取smallCubes[i].cells的哈希码</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行后会发现两次输出的哈希码一样，如果有多组数据（N&gt;1），那么你会发现每组数据输出两个相同的哈希码，组与组之间的哈希码不同。每组数据同样是Ns，地址却不同，这是为什么呢？别急，我们先保留这个疑惑，看看下面的情况。</p>
+<p>因为解题需求，这时候我需要复制一个立方体：</p>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Cube c1 = <span class="keyword">new</span> Cube(<span class="number">1</span>, <span class="keyword">new</span> <span class="keyword">int</span>[][][]&#123;&#123;&#123;<span class="number">1</span>&#125;&#125;&#125;);</div><div class="line">Cube c2 = c1;</div><div class="line">System.out.println(c1);</div><div class="line">System.out.println(c2);<span class="comment">//这两句输出的哈希码一样</span></div><div class="line">c1.cells[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]++;</div><div class="line">System.out.println(c2.cells[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]);<span class="comment">//输出2</span></div></pre></td></tr></table></figure>
+<p>这样“复制”肯定不行，c2和c1的哈希码是一样的，即c2是指向c1的引用，改变c1的值c2的也被改变。</p>
+<p>那上述传Ns值的时候为什么每组的Ns的哈希码不一样呢？原来是new关键字，new出来的对象都是Heap上一块新内存。JVM把程序申请的内存从逻辑上划分为四个部分，如下：</p>
+<table>
+<thead>
+<tr>
+<th>内存区域</th>
+<th>存放内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stack(栈)</td>
+<td>8种基本数据类型值和String，如String s = “123”;这里的s</td>
+</tr>
+<tr>
+<td>Heap(堆)</td>
+<td>创建出来的对象，如String s = new String(“123”);这里的new String()</td>
+</tr>
+<tr>
+<td>Data segment</td>
+<td>静态数据常量（包含String池），如String s = “123”;这里的”123”</td>
+</tr>
+<tr>
+<td>Code segment</td>
+<td>static代码段</td>
+</tr>
+</tbody>
+</table>
+<p>然后我们结合代码和图示来分析一下程序运行时JVM中内存的动作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String s1 = <span class="string">"123"</span>;<span class="comment">//"123"被放入String池，JVM自动new字符串对象o指向"123"，s1指向o</span></div><div class="line">String s2 = <span class="string">"123"</span>;<span class="comment">//String池中存在"123"，s2指向o</span></div><div class="line">String s3 = <span class="keyword">new</span> String(<span class="string">"123"</span>);<span class="comment">//String池中存在"123"，s2指向"123"</span></div><div class="line">System.out.println(s1 == s2);<span class="comment">//true s1和s2引用同一个对象</span></div><div class="line">System.out.println(s1 == s3);<span class="comment">//false s1和s3引用不同对象</span></div><div class="line">System.out.println(s1.equals(s3));<span class="comment">//true s1和s3值相同</span></div></pre></td></tr></table></figure>
+<p><img src="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%981.jpg" alt="String内存分析"></p>
+<p>同理，Cube类和其中cells三维数组在main函数中的内存分析如下：</p>
+<p><img src="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%982.jpg" alt="三维数组和Cube数组内存分析1"></p>
+<p>再看之前的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</div><div class="line">    <span class="keyword">int</span> len = sc.nextInt();</div><div class="line">    Ns = <span class="keyword">new</span> <span class="keyword">int</span>[len][len][len];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; len; k++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">0</span>; l &lt; len; l++) &#123;</div><div class="line">                Ns[j][k][l] = sc.nextInt();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//每次传进去的Ns都是new出来的不一样的，这里每个smallCube也是new出来的不一样的</span></div><div class="line">    smallCubes[i] = <span class="keyword">new</span> Cube(len, Ns);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>之前的疑惑“那传Ns值的时候为什么每组的Ns的哈希码不一样呢？”，这段代码里，每遍循环Ns都会被new分配到一块新的内存，所以每遍的Ns互相不会影响，所以每个smallCube都是独立的互不影响的。为了看的清楚点，这里我只举了两个栗子。<img src="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%983.jpg" alt="三维数组和Cube数组内存分析2"></p>
+<p>现在我们可以回过头来考虑复制Cube对象时出现的问题了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Cube c1 = <span class="keyword">new</span> Cube(<span class="number">1</span>, <span class="keyword">new</span> <span class="keyword">int</span>[][][]&#123;&#123;&#123;<span class="number">1</span>&#125;&#125;&#125;);</div><div class="line">Cube c2 = c1;</div><div class="line">System.out.println(c1);</div><div class="line">System.out.println(c2);<span class="comment">//这两句输出的哈希码一样</span></div><div class="line">c1.cells[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]++;</div><div class="line">System.out.println(c2.cells[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]);<span class="comment">//输出2</span></div></pre></td></tr></table></figure>
+<p>还是这段代码，现在我们可以画图，直观地说明为什么c1和c2的哈希码一样，而且改变c1.cells的值，c2.cells的值也会随之改变了。简单来说就是c1和c2指向了同一个引用对象。</p>
+<p><img src="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%984.jpg" alt="三维数组和Cube数组内存分析3"></p>
+<p>那么我们想达到的复制效果应该是这样的：</p>
+<p><img src="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%985.jpg" alt="三维数组和Cube数组内存分析4"></p>
+<p> 这里就不得不介绍Java提供给我们的java.lang包里面Object类的clone方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法修饰词及返回值</th>
+<th>方法名及参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>protected  Object</td>
+<td>clone()</td>
+</tr>
+<tr>
+<td></td>
+<td>创建并返回此对象的一个副本。</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">protected Object clone()</div><div class="line">                throws CloneNotSupportedException</div><div class="line">创建并返回此对象的一个副本。“副本”的准确含义可能依赖于对象的类。这样做的目的是，对于任何对象 x，表达式：</div><div class="line">x.clone() != x</div><div class="line">为 true，表达式：</div><div class="line">x.clone().getClass() == x.getClass()</div><div class="line">也为 true，但这些并非必须要满足的要求。一般情况下：</div><div class="line">x.clone().equals(x)</div><div class="line">为 true，但这并非必须要满足的要求。</div><div class="line">按照惯例，返回的对象应该通过调用 super.clone 获得。如果一个类及其所有的超类（Object 除外）都遵守此约定，则 x.clone().getClass() == x.getClass()。</div><div class="line"></div><div class="line">按照惯例，此方法返回的对象应该独立于该对象（正被复制的对象）。要获得此独立性，在 super.clone 返回对象之前，有必要对该对象的一个或多个字段进行修改。这通常意味着要复制包含正在被复制对象的内部“深层结构”的所有可变对象，并使用对副本的引用替换对这些对象的引用。如果一个类只包含基本字段或对不变对象的引用，那么通常不需要修改 super.clone 返回的对象中的字段。</div><div class="line"></div><div class="line">Object 类的 clone 方法执行特定的复制操作。首先，如果此对象的类不能实现接口 Cloneable，则会抛出 CloneNotSupportedException。注意，所有的数组都被视为实现接口 Cloneable。否则，此方法会创建此对象的类的一个新实例，并像通过分配那样，严格使用此对象相应字段的内容初始化该对象的所有字段；这些字段的内容没有被自我复制。所以，此方法执行的是该对象的“浅表复制”，而不“深层复制”操作。</div><div class="line"></div><div class="line">Object 类本身不实现接口 Cloneable，所以在类为 Object 的对象上调用 clone 方法将会导致在运行时抛出异常。</div><div class="line"></div><div class="line">返回：</div><div class="line">此实例的一个副本。</div><div class="line">抛出：</div><div class="line">CloneNotSupportedException - 如果对象的类不支持 Cloneable 接口，则重写 clone 方法的子类也会抛出此异常，以指示无法复制某个实例。</div></pre></td></tr></table></figure>
+<p>所以我们来尝试实现Cloneable接口重写一下clone方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cube</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> len;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[][][] cells;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Cube</span><span class="params">(<span class="keyword">int</span> len, <span class="keyword">int</span>[][][] cells)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.len = len;</div><div class="line">        <span class="keyword">this</span>.cells = cells;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Cube <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</div><div class="line">        <span class="keyword">return</span> (Cube)<span class="keyword">super</span>.clone();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Cube c1 = <span class="keyword">new</span> Cube(<span class="number">1</span>, <span class="keyword">new</span> <span class="keyword">int</span>[][][]&#123;&#123;&#123;<span class="number">1</span>&#125;&#125;&#125;);</div><div class="line">        Cube c2 = c1.clone;</div><div class="line">        System.out.println(c1);</div><div class="line">        System.out.println(c2);<span class="comment">//这两句输出的哈希码终于不一样了</span></div><div class="line">        c1.cells[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]++;</div><div class="line">        System.out.println(c2.cells[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]);<span class="comment">//输出的竟然还是2</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这不可能啊，明明调用了clone方法，怎么得到的c2还是与c1引用了同一个对象。</p>
+<p>经过搜索查阅得知，原来clone分shallow Clone(浅克隆)和deep Clone(深克隆)两种，其区别在于：对于被克隆的对象，若使用shallow Clone，则基本数据类型的成员被复制的是值，而含引用的成员被复制的是引用；若使用deep Clone，则所有成员都是以值被复制。</p>
+<p>从前面的内存分析中我们得知Cube类中的int成员len是基本数据类型的，而三维整型数组cells则是引用类型，所以上面调用super.clone()时实现的是浅克隆，内存分析如下图：</p>
+<p><img src="http://of6jxo0pt.bkt.clouddn.com/Java%E5%86%85%E5%AD%986.jpg" alt="三维数组和Cube数组内存分析5"></p>
+<p>明白原因以后就简单了，现在我们来实现Cube类的deep Clone(深克隆)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> Cube <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</div><div class="line">    <span class="keyword">int</span>[][][] cells = <span class="keyword">new</span> <span class="keyword">int</span>[len][len][len];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</div><div class="line">            System.arraycopy(<span class="keyword">this</span>.cells[i][j], <span class="number">0</span>, cells[i][j], <span class="number">0</span>, len);</div><div class="line">            <span class="comment">//注意：多维数组本身的深克隆是对其最深维进行数组拷贝</span></div><div class="line">            <span class="comment">//当然，new出一块新内存后也可以一个一个重新赋值</span></div><div class="line">            System.arraycopy(<span class="keyword">this</span>.cells[i][j], <span class="number">0</span>, cells[i][j], <span class="number">0</span>, len);</div><div class="line"><span class="comment">//            for (int k = 0; k &lt; len; k++) &#123;</span></div><div class="line"><span class="comment">//                cells[i][j][k] = this.cells[i][j][k];</span></div><div class="line"><span class="comment">//            &#125;</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Cube(len, cells);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Cube c1 = <span class="keyword">new</span> Cube(<span class="number">1</span>, <span class="keyword">new</span> <span class="keyword">int</span>[][][]&#123;&#123;&#123;<span class="number">1</span>&#125;&#125;&#125;);</div><div class="line">    Cube c2 = c1.clone;</div><div class="line">    System.out.println(c1);</div><div class="line">    System.out.println(c2);<span class="comment">//这两句输出的哈希不一样</span></div><div class="line">    c1.cells[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]++;</div><div class="line">    System.out.println(c2.cells[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]);<span class="comment">//输出的终于是1了</span></div><div class="line">    System.out.println(c1.cells[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>]);<span class="comment">//输出2</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>今天的分享就到此结束了，最后用两句话总结一下clone的用法：</p>
+<p>1、什么时候使用shallow Clone，什么时候使用deep Clone，这个主要看具体对象的成员是什么性质的，基本类型还是引用类型</p>
+<p>2、调用Clone()方法的对象所属的类必须实现Clonable接口</p>
+<p><strong>共勉</strong></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/10/16/Java引用和clone方法总结/">Java引用和clone方法总结</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">EGOISTK21</a></p>
+        <p><span>发布时间:</span>2016-10-16, 17:15:36</p>
+        <p><span>最后更新:</span>2017-02-27, 17:28:31</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/10/16/Java引用和clone方法总结/" title="Java引用和clone方法总结">https://egoistk21.xyz/2016/10/16/Java引用和clone方法总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://egoistk21.xyz/2016/10/16/Java引用和clone方法总结/　　作者: EGOISTK21" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/02/17/Java排序算法专题续/">
+                    Java排序算法专题续
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/10/13/浅谈Java反射二/">
+                    浅谈Java反射二
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-facebook bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+            <a href="#" class="fa fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到Linkedin"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给QQ好友"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+            <a href="#" class="fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Java引用和clone方法总结　| EGOISTK21's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/02/17/Java排序算法专题续/" title="上一篇: Java排序算法专题续">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/10/13/浅谈Java反射二/" title="下一篇: 浅谈Java反射二">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/Java排序算法专题续/">Java排序算法专题续</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/16/Java引用和clone方法总结/">Java引用和clone方法总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/浅谈Java反射二/">浅谈Java反射二</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/12/浅谈Java反射一/">浅谈Java反射一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/ZigZag Conversion/">ZigZag Conversion</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/23/Longest Palindromic Substring/">Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/10/Java排序算法专题/">Java排序算法专题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Longest Substring Without Repeating Characters/">Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2017 EGOISTK21
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+             post: ".article-entry a[href], .copyright a[href]", 
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

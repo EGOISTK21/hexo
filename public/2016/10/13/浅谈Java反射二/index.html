@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="EGOISTK21" />
+
+
+
+<meta name="description" content="昨天说的要更深入地探究一下Java反射，看了嘟嘟MD 前辈的这篇文章Java基础与提高干货系列——Java反射机制顿时神清气爽，觉得没多大必要再重复写他写过的了。所以今天就改成详细讲解反射的一众方法好了。  先补充一下昨天所讲的创建 Class 对象的方法，其实一共有三种（昨天漏说了第三种，代码引用自嘟嘟MD）： 123456//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过">
+<meta name="keywords" content="Java,笔试题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈Java反射二">
+<meta property="og:url" content="https://egoistk21.xyz/2016/10/13/浅谈Java反射二/index.html">
+<meta property="og:site_name" content="EGOISTK21&#39;s blog">
+<meta property="og:description" content="昨天说的要更深入地探究一下Java反射，看了嘟嘟MD 前辈的这篇文章Java基础与提高干货系列——Java反射机制顿时神清气爽，觉得没多大必要再重复写他写过的了。所以今天就改成详细讲解反射的一众方法好了。  先补充一下昨天所讲的创建 Class 对象的方法，其实一共有三种（昨天漏说了第三种，代码引用自嘟嘟MD）： 123456//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-22T10:14:41.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈Java反射二">
+<meta name="twitter:description" content="昨天说的要更深入地探究一下Java反射，看了嘟嘟MD 前辈的这篇文章Java基础与提高干货系列——Java反射机制顿时神清气爽，觉得没多大必要再重复写他写过的了。所以今天就改成详细讲解反射的一众方法好了。  先补充一下昨天所讲的创建 Class 对象的方法，其实一共有三种（昨天漏说了第三种，代码引用自嘟嘟MD）： 123456//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>浅谈Java反射二 | EGOISTK21&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.3.2/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.12.1/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">EGOISTK21</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">弱者抱以命，强者谦以运。</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Facebook" href="https://www.facebook.com/EGOISTK21" title="Facebook"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/EGOISTK21" title="Twitter"></a>
+                            
+                                <a class="fa 新浪微博" href="http://www.weibo.com/kinged" title="新浪微博"></a>
+                            
+                                <a class="fa 简书" href="http://www.jianshu.com/users/894109905307/timeline" title="简书"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/egoistk21" title="LinkedIn"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/EGOISTK21" title="GitHub"></a>
+                            
+                                <a class="fa V2EX" href="https://www.v2ex.com/member/EGOISTK21" title="V2EX"></a>
+                            
+                                <a class="fa Email" href="mailto:egoistk21@gmail.com" title="Email"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试题/">笔试题</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://egoistk21.github.io/OurLoveStory/">😘</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">混凝土方块瞬间移动师</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">EGOISTK21</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">EGOISTK21</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">弱者抱以命，强者谦以运。</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Facebook" target="_blank" href="https://www.facebook.com/EGOISTK21" title="Facebook"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/EGOISTK21" title="Twitter"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://www.weibo.com/kinged" title="新浪微博"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/894109905307/timeline" title="简书"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/egoistk21" title="LinkedIn"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/EGOISTK21" title="GitHub"></a>
+                            
+                                <a class="fa V2EX" target="_blank" href="https://www.v2ex.com/member/EGOISTK21" title="V2EX"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:egoistk21@gmail.com" title="Email"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-浅谈Java反射二" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/13/浅谈Java反射二/" class="article-date">
+      <time datetime="2016-10-13T07:40:58.000Z" itemprop="datePublished">2016-10-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅谈Java反射二
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔试题/">笔试题</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>昨天说的要更深入地探究一下Java反射，看了<a href="http://www.jianshu.com/users/a7f72d78fe0d" target="_blank" rel="external">嘟嘟MD </a>前辈的这篇文章<a href="http://www.jianshu.com/p/1a60d55a94cd" target="_blank" rel="external">Java基础与提高干货系列——Java反射机制</a>顿时神清气爽，觉得没多大必要再重复写他写过的了。所以今天就改成详细讲解反射的一众方法好了。</p>
+<hr>
+<p>先补充一下昨天所讲的创建 Class 对象的方法，其实一共有三种（昨天漏说了第三种，代码引用自<a href="http://www.jianshu.com/users/a7f72d78fe0d" target="_blank" rel="external">嘟嘟MD</a>）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//这说明任何一个类都有一个隐含的静态成员变量class，这种方式是通过获取类的静态成员变量class得到的</span></div><div class="line">Class c1 = Code.class;</div><div class="line"><span class="comment">//code1是Code的一个对象，这种方式是通过一个类的对象的getClass()方法获得的</span></div><div class="line">Class c2 = code1.getClass();</div><div class="line"><span class="comment">//这种方法是Class类调用forName方法，通过一个类的全量限定名获得</span></div><div class="line">Class c3 = Class.forName(<span class="string">"com.trigl.reflect.Code"</span>);</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>下面列出 Class 类的常用方法集：</p>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>方法名及参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Field</td>
+<td>getDeclaredField(String name)</td>
+</tr>
+<tr>
+<td></td>
+<td>返回一个 Field 对象，该对象反映此Class对象所表示的类或接口的指定已声明字段。</td>
+</tr>
+<tr>
+<td>Field[]</td>
+<td>getDeclaredFields()</td>
+</tr>
+<tr>
+<td></td>
+<td>返回 Field 对象的一个数组，这些对象反映此 Class 对象所表示的类或接口所声明的所有字段。</td>
+</tr>
+<tr>
+<td>Method</td>
+<td>getDeclaredMethod(String name, Class&lt;?&gt;… parameterTypes)</td>
+</tr>
+<tr>
+<td></td>
+<td>返回一个 Method 对象，该对象反映此 Class 对象所表示的类或接口的指定<strong>已声明</strong>方法。</td>
+</tr>
+<tr>
+<td>Method[]</td>
+<td>getDeclaredMethods()</td>
+</tr>
+<tr>
+<td></td>
+<td>返回 Method 对象的一个数组，这些对象反映此 Class 对象表示的类或接口声明的所有方法，包括公共、保护、默认（包）访问和私有方法，但不包括继承的方法。</td>
+</tr>
+<tr>
+<td>Method[]</td>
+<td>getMethods()</td>
+</tr>
+<tr>
+<td></td>
+<td>返回一个包含某些 Method 对象的数组，这些对象反映此 Class 对象所表示的类或接口（包括那些由该类或接口声明的以及从超类和超接口继承的那些的类或接口）的公共 member 方法。</td>
+</tr>
+<tr>
+<td>Field</td>
+<td>getField(String name)</td>
+</tr>
+<tr>
+<td></td>
+<td>返回一个 Field 对象，它反映此 Class 对象所表示的类或接口的指定公共成员字段。</td>
+</tr>
+<tr>
+<td>Field[]</td>
+<td>getFields()</td>
+</tr>
+<tr>
+<td></td>
+<td>返回一个包含某些 Field 对象的数组，这些对象反映此 Class 对象所表示的类或接口的所有可访问公共字段。</td>
+</tr>
+<tr>
+<td>Method</td>
+<td>getMethod(String name, Class&lt;?&gt;… parameterTypes)</td>
+</tr>
+<tr>
+<td></td>
+<td>返回一个 Method 对象，它反映此 Class 对象所表示的类或接口的指定公共成员方法。</td>
+</tr>
+<tr>
+<td>String</td>
+<td>getName()</td>
+</tr>
+<tr>
+<td></td>
+<td>以String的形式返回此 Class 对象所表示的实体（类、接口、数组类、基本类型或 void）名称。</td>
+</tr>
+<tr>
+<td>String</td>
+<td>getSimpleName()</td>
+</tr>
+<tr>
+<td></td>
+<td>返回源代码中给出的底层类的简称。</td>
+</tr>
+<tr>
+<td>Class&lt;? super T&gt;</td>
+<td>getSuperclass()</td>
+</tr>
+<tr>
+<td></td>
+<td>返回表示此Class所表示的实体（类、接口、基本类型或 void）的超类的 Class。</td>
+</tr>
+<tr>
+<td>T</td>
+<td>newInstance()</td>
+</tr>
+<tr>
+<td></td>
+<td>创建此Class对象所表示的类的一个新实例。</td>
+</tr>
+</tbody>
+</table>
+<p>Field 类的常用方法：</p>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th style="text-align:left">方法名及参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td style="text-align:left">getName()</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:left">返回此 Field 对象表示的字段的名称。</td>
+</tr>
+</tbody>
+</table>
+<p>Method 类的常用方法：</p>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th style="text-align:left">方法及参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td style="text-align:left">getName()</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:left">以 String 形式返回此 Method 对象表示的方法名称。</td>
+</tr>
+<tr>
+<td>Object</td>
+<td style="text-align:left">invoke(Object obj, Object… args)</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:left">对带有指定参数的指定对象调用由此 Method 对象表示的底层方法。</td>
+</tr>
+</tbody>
+</table>
+<p>下面我们通过一些例子来认识一下以上的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = <span class="string">"nameless"</span>;</div><div class="line">        <span class="keyword">this</span>.age = <span class="number">20</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.getClass().getSimpleName() + <span class="string">" "</span> + getName() + <span class="string">" is "</span> + getAge() + <span class="string">" years old."</span>;</div><div class="line">    &#125; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Programmer</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaProgrammer</span> <span class="keyword">extends</span> <span class="title">Programmer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Person j = <span class="keyword">new</span> JavaProgrammer();<span class="comment">//试一下多态</span></div><div class="line">        System.out.println(j);<span class="comment">//输出JavaProgrammer nameless is 20 years old.</span></div><div class="line">        System.out.println(JavaProgrammer.class.getSimpleName());<span class="comment">//输出JavaProgrammer</span></div><div class="line">        System.out.println(JavaProgrammer.class.getSuperclass().getSuperclass().getName());<span class="comment">//输出com.egoistk.Person</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Method m = Person.class.getDeclaredMethod(<span class="string">"toString"</span>);</div><div class="line">            <span class="comment">//Method m = JavaProgrammer.class.getDeclaredMethod("toString");错误，toString方法在 JavaProgrammer 类中没有被声明</span></div><div class="line">            Method mm = JavaProgrammer.class.getMethod(<span class="string">"toString"</span>);<span class="comment">//正确，toString方法是 JavaProgrammer 类中的公共成员方法</span></div><div class="line">            System.out.println(m.invoke(JavaProgrammer.class.newInstance()));<span class="comment">//输出JavaProgrammer nameless is 20 years old. 在反射中的体现方法的动态绑定完美地解释了多态</span></div><div class="line">            System.out.println(JavaProgrammer.class.getSuperclass().getSuperclass().newInstance());<span class="comment">//输出Person nameless is 20 years old.</span></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果一个类中的方法是私有的我们又怎么访问，且看如何用反射调用私有属性和方法(setAccessible)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = <span class="string">"nameless"</span>;</div><div class="line">        <span class="keyword">this</span>.age = <span class="number">20</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.getClass().getSimpleName() + <span class="string">" "</span> + getName() + <span class="string">" is "</span> + getAge() + <span class="string">" years old."</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Method[] methods = Person.class.getDeclaredMethods();</div><div class="line">        <span class="keyword">for</span>(Method m:methods)&#123;</div><div class="line">            System.out.println(m.getName()); </div><div class="line">        &#125;<span class="comment">//输出main</span></div><div class="line">        <span class="comment">//toString</span></div><div class="line">        <span class="comment">//getName</span></div><div class="line">        <span class="comment">//setName</span></div><div class="line">        <span class="comment">//getAge</span></div><div class="line">        <span class="comment">//setAge</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Method m = Person.class.getDeclaredMethod(<span class="string">"getName"</span>);</div><div class="line">            System.out.println(m.invoke(<span class="keyword">new</span> Person()));<span class="comment">//输出nameless</span></div><div class="line">            Method mm = Person.class.getDeclaredMethod(<span class="string">"setName"</span>, String.class);</div><div class="line">            Person p = <span class="keyword">new</span> Person();</div><div class="line">            <span class="comment">//mm.invoke(p, "EGOISTK");错误，setName方法是private方法，无法调用</span></div><div class="line">            mm.setAccessible(<span class="keyword">true</span>);<span class="comment">//打开setName的权限</span></div><div class="line">            mm.invoke(p, <span class="string">"EGOISTK"</span>);<span class="comment">//可以调用了</span></div><div class="line">            System.out.println(m.invoke(p));<span class="comment">//输出EGOISTK</span></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>与你共勉</strong></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/10/13/浅谈Java反射二/">浅谈Java反射二</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">EGOISTK21</a></p>
+        <p><span>发布时间:</span>2016-10-13, 15:40:58</p>
+        <p><span>最后更新:</span>2017-08-22, 18:14:41</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/10/13/浅谈Java反射二/" title="浅谈Java反射二">https://egoistk21.xyz/2016/10/13/浅谈Java反射二/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://egoistk21.xyz/2016/10/13/浅谈Java反射二/　　作者: EGOISTK21" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/10/16/Java引用和clone方法总结/">
+                    Java引用和clone方法总结
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/10/12/浅谈Java反射一/">
+                    浅谈Java反射一
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-facebook bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+            <a href="#" class="fa fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到Linkedin"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给QQ好友"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+            <a href="#" class="fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"浅谈Java反射二　| EGOISTK21's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/10/16/Java引用和clone方法总结/" title="上一篇: Java引用和clone方法总结">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/10/12/浅谈Java反射一/" title="下一篇: 浅谈Java反射一">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/Java排序算法专题续/">Java排序算法专题续</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/16/Java引用和clone方法总结/">Java引用和clone方法总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/浅谈Java反射二/">浅谈Java反射二</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/12/浅谈Java反射一/">浅谈Java反射一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/ZigZag Conversion/">ZigZag Conversion</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/23/Longest Palindromic Substring/">Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/10/Java排序算法专题/">Java排序算法专题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Longest Substring Without Repeating Characters/">Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2017 EGOISTK21
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+             post: ".article-entry a[href], .copyright a[href]", 
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

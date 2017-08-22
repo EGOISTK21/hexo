@@ -1,0 +1,314 @@
+# Theme Version | 当前版本
+Yelee: "3.5"
+
+# >>> Basic Setup | 基础设置 <<<
+
+# Header | 主菜单
+## About Page: `hexo new page about`
+## Tags Cloud Page: `hexo new page tags`
+menu:
+  主页: /
+  归档: /archives/
+  标签: /tags/
+  关于: /about/
+
+# Link to your avatar | 填写头像地址
+avatar: /img/avatar.png
+
+# Small icon of Your site | 站点小图标地址
+favicon: /favicon.png
+
+# Internationalization | 主题语言
+## Change Language in SITE's _config.yml | 在站点配置中切换语言
+## https://hexo.io/docs/internationalization.html
+## Available Languages: en, zh-Hans, zh-Hant-TW, zh-Hant-HK
+
+# Subdirectory | 子目录
+## If your site' url is 'http://yoursite.com/blog', set root_url as '/blog/'
+## 网站若存放在子目录，请按上面格式填写
+## https://hexo.io/docs/configuration.html#URL
+root_url: 
+
+# Year of Site Creation | 网站成立年份
+since: 2016
+
+# Social info. Bar | 社交信息展示
+## Keep "mailto:" in Email | 设置 Email 时保留 "mailto:"
+## Encrypt email 加密邮件地址 http://ctrlq.org/encode/
+## RSS requires a plugin to take effect | 使用 RSS 需先安装对应插件
+## https://github.com/hexojs/hexo-generator-feed
+
+subnav:
+  Facebook: "https://www.facebook.com/EGOISTK21"
+  Twitter: "https://twitter.com/EGOISTK21"
+  新浪微博: "http://www.weibo.com/kinged"
+  简书: "http://www.jianshu.com/users/894109905307/timeline"
+  LinkedIn: "http://www.linkedin.com/in/egoistk21"
+  GitHub: "https://github.com/EGOISTK21"
+  V2EX: "https://www.v2ex.com/member/EGOISTK21"
+  Email: "mailto:egoistk21@gmail.com"
+  RSS: "/atom.xml"
+  #知乎: "zhihu"
+  #豆瓣: "douban"
+  #SegmentFault: ""
+  #博客园: "cnblogs"
+  #CSDN: ""
+  #Coding: ""
+  #网易云音乐: "netease"
+  #虾米音乐: "xiami"
+  #bilibili: ""
+  #AcFun: ""
+  #niconico: ""
+  #Quora: ""
+  #Google: "https://plus.google.com/u/0/117302061478454810338"
+  #QQ: "#"
+  #微信: "Wechat"
+  #PayPal: "#"
+  #StackOverflow: "#"
+  #CodePen: ""
+  #Plunker: ""
+  #Instagram: "#"
+  #LOFTER: ""
+  #Flickr: "#"
+  #reddit: ""
+  #Medium: ""
+  #TiddlyWiki: ""
+  #Tumblr: ""
+  #_500px: ""
+
+# >>> Conments 评论系统 <<<
+# Chose ONE as your comment system and keep others disable.
+# 选一个作为网站评论系统，其他保持禁用。
+
+preload_comment: true
+## false: 当点击评论条等区域时再加载评论模块
+## false: load comment's section until u click/hover on the bar/icon
+
+show_count: true
+## 是否在主页文章标题旁显示评论数（多说、Disqus）
+## Add comment count after article title
+
+disqus: 
+  #on: true
+  shortname: 
+  # https://help.disqus.com/customer/en/portal/articles/466208-what-s-a-shortname-
+  # It is unnecessary to enable disqus here if 
+  # you have set "disqus_shortname" in your site's "_config.yml" 
+
+duoshuo: 
+  on: false
+  domain: egoistk21
+  # 是否开启多说评论，http://duoshuo.com/create-site/
+  # 使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分
+  # http://<要填的部分>.duoshuo.com (domain只填上<>里的内容，不要填整个网址)
+
+youyan:
+  #on: true
+  id: 
+  # 是否开启友言评论，http://www.uyan.cc/index.php
+  # id 中填写你的友言用户数字ID，注册后进入后台管理即可查看
+  # 友言服务在 Web 环境下运行，普通本地环境无法查看，请部署后在线上测试。
+
+
+# >>> Style Customisation 样式自定义 <<<
+
+# Background | 背景
+## "5": show images form bg-1.jpg to bg-5.jpg in `/yelee/source/background/`
+## "5": 显示`/yelee/source/background/`文件夹中 bg-1.jpg 到 bg-5.jpg 这5张图片
+## "0": white-gray background | 淳朴灰白背景
+background_image: 5
+
+# Base Font Size | 字号调节
+base_font_size: 16  #px, 16 - 24
+
+## General Color Scheme | 主题配色方案 
+## 可用值 Value: yilia
+color_scheme: 
+
+highlight_style:
+  on: true
+  inline_code: 2  # Value: 0 - 9 可选
+  code_block: 0  # Value: 0 - 4 
+  # Set inline_code to style highlight text
+  # Chose a highlight theme for code block
+  # 通过 inline_code 切换内置文本高亮样式
+  # 通过 code_block 切换内置代码高亮配色主题
+
+blockquote_style:
+  on: true
+  blockquote: 1  # Value: 0 - 7 可选
+  # 自定义文章「引用部分」的样式
+
+# Headings Style | 标题风格
+## 0-Yelee, 1-Yilia, 2-GitHub
+heading_style: 0 # Value: 0 - 2
+
+## List style type (ul) | 无序列表项标记样式
+list_style: 1  # value: 0 - 12 可选
+
+# 左边栏宽度 px
+left_col_width: 300
+
+# Copyright info. of post | 文末版权信息
+copyright: true
+
+# Table of contents | 文章目录
+toc:
+  on: true
+  list_number: true # 目录序号
+  max_depth: 3  # 1 - 6 (h1-h6) 目录最大级数
+  nowrap: true # Keep title on same line | 目录标题不换行
+
+# 是否开启主页及加载头像时的动画效果
+# Animation in Homepage and Loading avatar
+animate: true
+
+# Load jQuery UI to style tooltips
+# 工具提示框样式美化
+jquery_ui: true
+
+# Max width of right cloumn | 限制右侧内容的宽带 
+limit_article_width: 
+  on: false
+  max_width: 60 # em
+
+# >>> Small features | 小功能设置 <<<
+
+# 是否开启边栏多标签切换
+# Birdhouse button in left column
+tagcloud: true
+
+# Blogroll, Link exchange | 友情链接
+friends:
+  Hexo: https://hexo.io
+  GitHub: https://pages.github.com/
+  MOxFIVE: http://moxfive.xyz/
+  😘: https://egoistk21.github.io/OurLoveStory/
+#friends: false
+
+#是否开启“关于我”。
+aboutme: 混凝土方块瞬间移动师 
+#aboutme: false
+
+# Open link in a new tab | 是否在新窗口打开链接
+## `global` 0: Set separately, 1: Open all in new 2: Open all in current
+## `global` 0: 分开设置, 1: 全部在新标签打开, 2: 全部在"当前"标签打开
+open_in_new:
+  global: 0 # 0-2
+  title: false # article title in homepage 主页文章标题
+  post: true # link within post/page 正文中的链接
+  external_link: true # 在新标签中打开站外链接
+  tags: false # 标签
+  categories: false # 分类
+  article_nav: false # 导航
+  archives: true # 归档
+  mini_archives: true # 迷你归档
+  menu: false # 边栏菜单
+  friends: true  # 友情链接
+  socail: true # 社交图标
+
+# Customize feed link 自定义订阅地址
+feed:
+  type: atom # Feed type. (atom/rss2)
+  path: atom.xml # Feed path. (Default: atom.xml/rss2.xml)
+  limit: 20 # Maximum number of posts in the feed (Use 0 or false to show all posts)
+  hub: # URL of the PubSubHubbub hubs (Leave it empty if you don't use it)
+
+# Update Reminder for IE6/7/8
+# 针对 IE6/7/8 的升级浏览器提示
+ie_updater:
+  on: true
+  link: //outdatedbrowser.com/
+  ## http://browsehappy.com/
+  ## http://outdatedbrowser.com/
+
+# Tab Title Change | 标签页标题切换
+tab_title_change: 
+  on: true
+  left_tab_title: '(つェ⊂) 我藏好了哦~ '
+  return_tab_title: '(*´∇｀*) 被你发现啦~ '
+
+
+# >>> Vendors | 第三方工具 & 服务 <<<
+
+# Local Site Search | 本地站内搜索
+## Insatall below plugin to take effect | 使用搜索需先安装对应插件
+## https://github.com/PaicHyperionDev/hexo-generator-search
+search: 
+  on: true
+  onload: false
+  ## true: get search.xml file when the page has loaded
+  ## false: get the file when search box gets focus
+
+# images viewer | 图片浏览器
+## http://www.fancyapps.com/fancybox/
+fancybox: true
+
+# Display Math(LaTeX, MathML...) | 数学公式支持
+## https://www.mathjax.org/
+#mathjax: true
+
+# Socail Share | 是否开启分享
+share: 
+  on: true
+  baidu: true
+  addthis: false
+  addthis_pubid: "ra-57eb316b17ffb190"
+  ## Go to www.addthis.com/dashboard to get your pubid (in src of Code)
+  ## and customize AddThis share buttons
+
+# 百度、谷歌站长验证。填写 HTML 标签 content
+# Site Verification for Google and Baidu. HTML label content.
+baidu_site: 
+google_site: 
+
+# Fill in Google Analytics tracking ID, #e.g. UA-XXXXX-X
+google_analytics: 
+
+# 百度统计 http://sitecenter.baidu.com/sc-web/
+# 查看代码，填入 //hm.baidu.com/hm.js? 之后的内容
+baidu_tongji: 
+
+# 不蒜子网站计数设置
+# http://ibruce.info/2015/04/04/busuanzi/
+visit_counter:
+  on: true
+  site_visit: true
+  page_visit: true
+
+# GitHub Repo Widget
+# https://github.com/hustcc/GitHub-Repo-Widget.js
+github_widget: true
+
+# Progress Bar | 页面加载进度条
+# Demo: http://github.hubspot.com/pace/docs/welcome/
+# type: barber-shop|big-counter|bounce|center-atom|center-circle|
+#       center-radar|center-simple|corner-indicator|flash|flat-top|
+#       loading-bar|mac-osx|minimal
+# color: black|blue|green|orange|pink|purple|red|silver|white|yellow|
+progressBar:
+  on: true
+  type: "minimal"  # Keep Quotes | 保留引号避免出错
+  color: blue
+
+Plugins:
+- hexo-generator-sitemap
+
+#sitemap
+sitemap:
+  path: sitemap.xml
+
+
+CDN:
+  jquery: //cdn.bootcss.com/jquery/3.1.1/jquery.min.js
+  require: //cdn.bootcss.com/require.js/2.3.2/require.min.js
+  fontawesome: //cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css
+  fancybox_js: //cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js
+  fancybox_css: //cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css
+  animate_css: //cdn.bootcss.com/animate.css/3.5.2/animate.min.css
+  jquery_ui_js: //cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js
+  jquery_ui_css: //cdn.bootcss.com/jqueryui/1.12.1/css/jquery-ui.min.css
+  pace_js: //cdn.bootcss.com/pace/1.0.2/pace.min.js
+  clipboard: //cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js
+  #mathjax: //cdn.bootcss.com/mathjax/2.7.0/MathJax.js
+  scrollreveal: //cdn.bootcss.com/scrollReveal.js/3.3.2/scrollreveal.min.js

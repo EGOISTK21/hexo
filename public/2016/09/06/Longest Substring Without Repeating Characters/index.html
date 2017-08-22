@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="EGOISTK21" />
+
+
+
+<meta name="description" content="最长无重字符子串给定一个字符串，找到最长子串的长度不重复的字符。 例子： 给定“abcabcbb”，答案是“abc”，它的长度为3。 给定“bbbbb”，答案为“b”，长度为1。 给定“pwwkew”，答案是“wke”，长度为3。 注意答案一定是一个字符串的长度，“pwke”是一个序列，而不是子串。">
+<meta name="keywords" content="Java,Algorithm,LeetCode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Longest Substring Without Repeating Characters">
+<meta property="og:url" content="https://egoistk21.xyz/2016/09/06/Longest Substring Without Repeating Characters/index.html">
+<meta property="og:site_name" content="EGOISTK21&#39;s blog">
+<meta property="og:description" content="最长无重字符子串给定一个字符串，找到最长子串的长度不重复的字符。 例子： 给定“abcabcbb”，答案是“abc”，它的长度为3。 给定“bbbbb”，答案为“b”，长度为1。 给定“pwwkew”，答案是“wke”，长度为3。 注意答案一定是一个字符串的长度，“pwke”是一个序列，而不是子串。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-02-27T09:28:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Longest Substring Without Repeating Characters">
+<meta name="twitter:description" content="最长无重字符子串给定一个字符串，找到最长子串的长度不重复的字符。 例子： 给定“abcabcbb”，答案是“abc”，它的长度为3。 给定“bbbbb”，答案为“b”，长度为1。 给定“pwwkew”，答案是“wke”，长度为3。 注意答案一定是一个字符串的长度，“pwke”是一个序列，而不是子串。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Longest Substring Without Repeating Characters | EGOISTK21&#39;s blog</title>
+
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.3.2/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.12.1/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">EGOISTK21</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">弱者抱以命，强者谦以运。</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">归档</a></li>
+                        
+                            <li><a href="/tags/">标签</a></li>
+                        
+                            <li><a href="/about/">关于</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Facebook" href="https://www.facebook.com/EGOISTK21" title="Facebook"></a>
+                            
+                                <a class="fa Twitter" href="https://twitter.com/EGOISTK21" title="Twitter"></a>
+                            
+                                <a class="fa 新浪微博" href="http://www.weibo.com/kinged" title="新浪微博"></a>
+                            
+                                <a class="fa 简书" href="http://www.jianshu.com/users/894109905307/timeline" title="简书"></a>
+                            
+                                <a class="fa LinkedIn" href="http://www.linkedin.com/in/egoistk21" title="LinkedIn"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/EGOISTK21" title="GitHub"></a>
+                            
+                                <a class="fa V2EX" href="https://www.v2ex.com/member/EGOISTK21" title="V2EX"></a>
+                            
+                                <a class="fa Email" href="mailto:egoistk21@gmail.com" title="Email"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/">Algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LeetCode/">LeetCode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试题/">笔试题</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://egoistk21.github.io/OurLoveStory/">😘</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">混凝土方块瞬间移动师</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">EGOISTK21</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">EGOISTK21</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">弱者抱以命，强者谦以运。</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">归档</a></li>
+                
+                    <li><a href="/tags/">标签</a></li>
+                
+                    <li><a href="/about/">关于</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Facebook" target="_blank" href="https://www.facebook.com/EGOISTK21" title="Facebook"></a>
+                            
+                                <a class="fa Twitter" target="_blank" href="https://twitter.com/EGOISTK21" title="Twitter"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://www.weibo.com/kinged" title="新浪微博"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/894109905307/timeline" title="简书"></a>
+                            
+                                <a class="fa LinkedIn" target="_blank" href="http://www.linkedin.com/in/egoistk21" title="LinkedIn"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/EGOISTK21" title="GitHub"></a>
+                            
+                                <a class="fa V2EX" target="_blank" href="https://www.v2ex.com/member/EGOISTK21" title="V2EX"></a>
+                            
+                                <a class="fa Email" target="_blank" href="mailto:egoistk21@gmail.com" title="Email"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Longest Substring Without Repeating Characters" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/06/Longest Substring Without Repeating Characters/" class="article-date">
+      <time datetime="2016-09-06T08:44:22.000Z" itemprop="datePublished">2016-09-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Longest Substring Without Repeating Characters
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/">Algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LeetCode/">LeetCode</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="最长无重字符子串"><a href="#最长无重字符子串" class="headerlink" title="最长无重字符子串"></a>最长无重字符子串</h2><p>给定一个字符串，找到最长子串的长度不重复的字符。</p>
+<p>例子：</p>
+<p>给定“abcabcbb”，答案是“abc”，它的长度为3。</p>
+<p>给定“bbbbb”，答案为“b”，长度为1。</p>
+<p>给定“pwwkew”，答案是“wke”，长度为3。</p>
+<p>注意答案一定是一个字符串的长度，“pwke”是一个序列，而不是子串。<br><a id="more"></a></p>
+<hr>
+<p>这是我第一遍刷算法题，也是第一遍刷Leetcode。碰到这个字符串的问题，一开始我有点懵，这对我太有难度了。但是我忍住没有去看Editorial，一点点自己码。嗯，这是一个好的开端。</p>
+<p>题目要求我们获得最长无重子串，所以我从最长入手，用一个变量currLength从最长子串开始递减，再用两个变量i，j遍历currLength子串中是否有重复字符，若有则currLength自减，若无则返回currLength为最长无重子串的长度。若字符串本身长度小于2则直接返回字符串本身长度。但是测试数据的时候出现了问题，原来我忘了考虑currLength自减后，currLength长度的子串不止一个。比如“abcabcbb”的长度为8，它的长度为7的子串有“abcabcb”和“bcabcbb”，两个。所以我又加了一层循环用来<strong>滑动</strong>currLength的子串。</p>
+<p>下面就是我的第一个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">    <span class="keyword">char</span> c;</div><div class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">int</span> length = s.length(), currLength = <span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span> (length &lt; <span class="number">2</span>) <span class="keyword">return</span> length;</div><div class="line">    <span class="comment">//滑动字符子串长度currLength</span></div><div class="line">    <span class="keyword">for</span> (currLength = length; currLength &gt; <span class="number">1</span>; currLength--) &#123;</div><div class="line">        <span class="comment">//滑动字符子串位置head</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> head = <span class="number">0</span>; head &lt;= length - currLength; head++) &#123;</div><div class="line">            <span class="comment">//滑动字符子串内遍历查询重复字符</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = head; i &lt; head + currLength - <span class="number">1</span>; i++) &#123;</div><div class="line">                c = s.charAt(i);</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; head + currLength; j++) &#123;</div><div class="line">                    <span class="comment">//如果遍历中遇到重复字符，则跳出循环，字符子串右移一位</span></div><div class="line">                    <span class="keyword">if</span> (c == s.charAt(j)) &#123;</div><div class="line">                        flag = <span class="keyword">true</span>;</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (flag) &#123;</div><div class="line">                    flag = <span class="keyword">false</span>;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="comment">//如果遍历结束,字符子串内无重复字符，返回当前长度currLength</span></div><div class="line">                <span class="keyword">if</span> (i == head + currLength - <span class="number">2</span>) <span class="keyword">return</span> currLength;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> currLength;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是这段代码提交后被rejected了。原因是时间复杂度太大，当遇到字符串本身超长且最长无重子串较短时，所需计算时间太长。四层循环，时间复杂度为O(n^4)。所以我需要改进我的算法，从减少循环层数开始，我称之为更加线性化的算法。</p>
+<p>这次我从第一个字符开始，用<strong>双指针</strong>的方法，双指针首先指向第m个和第n个字符（m&lt;n），若不相同则尾指针右移；若相同则头指针右移跳出比较循环同时尾指针也右移，因为尾指针所指字符只和头指针所指字符相同，头指针所指字符和<strong>头指针与尾指针之间的字符</strong>都不相同。另外当遍历到最后一个字符的时候，返回maxLength和currLength中较长者。</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">    <span class="keyword">char</span> c;</div><div class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">int</span> head = <span class="number">0</span>, tail = <span class="number">1</span>, curr, length = s.length(), currLength = <span class="number">0</span>, maxLength = <span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span> (length &lt; <span class="number">2</span>) <span class="keyword">return</span> length;</div><div class="line">    <span class="comment">//线性遍历整个字符串s，每次遇到重复字符，记录当前无重字符子串长度并与maxLength比较取大，字符子串头部head右移一位</span></div><div class="line">    <span class="keyword">for</span> (; head &lt; length - currLength; head++) &#123;</div><div class="line">        <span class="keyword">for</span> (; tail &lt; length; tail++) &#123;</div><div class="line">            c = s.charAt(tail);</div><div class="line">            <span class="keyword">for</span> (curr = head; curr &lt; tail; curr++) &#123;</div><div class="line">                <span class="keyword">if</span> (c == s.charAt(curr)) &#123;</div><div class="line">                    currLength = tail - head;</div><div class="line">                    maxLength = (maxLength &gt; currLength)?maxLength:currLength;</div><div class="line">                    head = curr + <span class="number">1</span>;<span class="comment">//head重定位</span></div><div class="line">                                   <span class="comment">//tail不重新赋值，也会自加，相当于++tail </span></div><div class="line">                    flag = <span class="keyword">true</span>;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (flag) &#123;</div><div class="line">                flag = <span class="keyword">false</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (tail == length - <span class="number">1</span> &amp;&amp; curr == tail) &#123;</div><div class="line">                currLength = tail - head + <span class="number">1</span>;</div><div class="line">                <span class="keyword">return</span> (maxLength &gt; currLength)?maxLength:currLength;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> maxLength;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这次提交后总算accepted了，<strong>爽！</strong></p>
+<p>但是隐约中我觉得还有更好的算法，但是目前自己技术有限，等以后再来填坑～</p>
+<p><strong>谢谢阅读</strong></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/09/06/Longest Substring Without Repeating Characters/">Longest Substring Without Repeating Characters</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">EGOISTK21</a></p>
+        <p><span>发布时间:</span>2016-09-06, 16:44:22</p>
+        <p><span>最后更新:</span>2017-02-27, 17:28:40</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/09/06/Longest Substring Without Repeating Characters/" title="Longest Substring Without Repeating Characters">https://egoistk21.xyz/2016/09/06/Longest Substring Without Repeating Characters/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://egoistk21.xyz/2016/09/06/Longest Substring Without Repeating Characters/　　作者: EGOISTK21" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/09/10/Java排序算法专题/">
+                    Java排序算法专题
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/08/15/hello-world/">
+                    Hello World
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#最长无重字符子串"><span class="toc-number">1.</span> <span class="toc-text">最长无重字符子串</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-facebook bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+            <a href="#" class="fa fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到Linkedin"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给QQ好友"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+            <a href="#" class="fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Longest Substring Without Repeating Characters　| EGOISTK21's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/09/10/Java排序算法专题/" title="上一篇: Java排序算法专题">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/08/15/hello-world/" title="下一篇: Hello World">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/Java排序算法专题续/">Java排序算法专题续</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/16/Java引用和clone方法总结/">Java引用和clone方法总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/浅谈Java反射二/">浅谈Java反射二</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/12/浅谈Java反射一/">浅谈Java反射一</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/ZigZag Conversion/">ZigZag Conversion</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/23/Longest Palindromic Substring/">Longest Palindromic Substring</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/10/Java排序算法专题/">Java排序算法专题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/06/Longest Substring Without Repeating Characters/">Longest Substring Without Repeating Characters</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2017 EGOISTK21
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+    <script src="/js/GithubRepoWidget.js"></script>
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+             github: ".github-widget a", 
+            
+             post: ".article-entry a[href], .copyright a[href]", 
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+    <script>
+        var originTitle = document.title;
+        var titleTime;
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                document.title = "(つェ⊂) 我藏好了哦~ " + originTitle;
+                clearTimeout(titleTime);
+            }
+            else {
+                document.title = "(*´∇｀*) 被你发现啦~ " + originTitle;
+                titleTime = setTimeout(function() {
+                    document.title = originTitle;
+                }, 2000);
+            }
+        })
+    </script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
