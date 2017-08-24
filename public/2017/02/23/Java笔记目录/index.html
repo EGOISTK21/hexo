@@ -15,18 +15,17 @@
 
 
 
-<meta name="description" content="这学期刚开学的时候在睿思(我们学校的BBS)上看到了一个学长的求助，就收藏了，那时候自己还在搭建Hexo博客，没时间研究，昨天就去翻看了一下，原题如下： 1234567891011121314public class A &amp;#123;    protected String getString() &amp;#123;        return &quot;A&quot;;    &amp;#125;&amp;#125;public cl">
-<meta name="keywords" content="Java,笔试题">
+<meta name="description" content="EGOISTK21的基于Hexo&amp;yelee的GitHub Pages静态博客">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅谈Java反射一">
-<meta property="og:url" content="https://egoistk21.xyz/2016/10/12/浅谈Java反射一/index.html">
+<meta property="og:title" content="Java笔记目录">
+<meta property="og:url" content="https://egoistk21.xyz/2017/02/23/Java笔记目录/index.html">
 <meta property="og:site_name" content="EGOISTK21&#39;s blog">
-<meta property="og:description" content="这学期刚开学的时候在睿思(我们学校的BBS)上看到了一个学长的求助，就收藏了，那时候自己还在搭建Hexo博客，没时间研究，昨天就去翻看了一下，原题如下： 1234567891011121314public class A &amp;#123;    protected String getString() &amp;#123;        return &quot;A&quot;;    &amp;#125;&amp;#125;public cl">
+<meta property="og:description" content="EGOISTK21的基于Hexo&amp;yelee的GitHub Pages静态博客">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-08-22T10:14:37.738Z">
+<meta property="og:updated_time" content="2017-08-23T01:56:06.856Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈Java反射一">
-<meta name="twitter:description" content="这学期刚开学的时候在睿思(我们学校的BBS)上看到了一个学长的求助，就收藏了，那时候自己还在搭建Hexo博客，没时间研究，昨天就去翻看了一下，原题如下： 1234567891011121314public class A &amp;#123;    protected String getString() &amp;#123;        return &quot;A&quot;;    &amp;#125;&amp;#125;public cl">
+<meta name="twitter:title" content="Java笔记目录">
+<meta name="twitter:description" content="EGOISTK21的基于Hexo&amp;yelee的GitHub Pages静态博客">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +55,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>浅谈Java反射一 | EGOISTK21&#39;s blog</title>
+<title>Java笔记目录 | EGOISTK21&#39;s blog</title>
 
 <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
@@ -295,11 +294,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-浅谈Java反射一" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Java笔记目录" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/10/12/浅谈Java反射一/" class="article-date">
-      <time datetime="2016-10-12T07:06:47.000Z" itemprop="datePublished">2016-10-12</time>
+      <a href="/2017/02/23/Java笔记目录/" class="article-date">
+      <time datetime="2017-02-23T01:10:47.000Z" itemprop="datePublished">2017-02-23</time>
 </a>
 
 
@@ -314,7 +313,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      浅谈Java反射一
+      Java笔记目录
     </h1>
   
 
@@ -324,10 +323,6 @@
         
 
         
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔试题/">笔试题</a></li></ul>
-    </div>
-
         <div class="clearfix"></div>
       </div>
       
@@ -335,19 +330,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>这学期刚开学的时候在睿思(我们学校的BBS)上看到了一个学长的求助，就收藏了，那时候自己还在搭建Hexo博客，没时间研究，昨天就去翻看了一下，原题如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"A"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"B"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span> </span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>要求在子类C的对象中访问其父类的父类A中的getString方法。</p>
-<a id="more"></a>
-<hr>
-<p>这题不能想当然地在C类里面加一个A类的成员，要访问一个编译时根本无法预知类型的对象，那必须使用反射。那今天我们就来讲一下用反射查看类的信息。</p>
-<p>我们先来讲一下Java中Class这个类，好比类是一批拥有共同特征的对象的抽象，Class是这些类的抽象，也就是说Class是所有类的类。Class 类的实例表示正在运行的 Java 应用程序中的类和接口。Class 没有公共构造方法。Class 对象是在加载类时由 Java 虚拟机以及通过调用类加载器中的 defineClass 方法自动构造的。例如car.getClass().getName();　还可以使用一个类字面值来获取指定类型（或 void）的 Class 对象。例如，Car.class.getName(); 有了获取正在运行的 Java 应用程序中的类的方法，接下来就好办了。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String args[])</span></span>&#123;</div><div class="line">        Class a = C.class.getSuperclass().getSuperclass();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Object o = a.newInstance();</div><div class="line">            A c = (A)o;</div><div class="line">            System.out.println(c.getString());</div><div class="line">        &#125; <span class="keyword">catch</span>(Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>或者下面这个更好的</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">C</span> <span class="keyword">extends</span> <span class="title">B</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String args[])</span></span>&#123;</div><div class="line">        Class a = C.class.getSuperclass().getSuperclass();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Method m = a.getDeclaredMethod(<span class="string">"getString"</span>,<span class="keyword">null</span>);</div><div class="line">            System.out.println(m.invoke(a.newInstance(),<span class="keyword">null</span>));</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>下一篇我来讲一下怎么用反射调用私有属性和方法(setAccessible)。</p>
-<p>晚安。</p>
-
+        
       
     </div>
     
@@ -355,13 +338,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/10/12/浅谈Java反射一/">浅谈Java反射一</a></p>
+        <p><span>本文标题:</span><a href="/2017/02/23/Java笔记目录/">Java笔记目录</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">EGOISTK21</a></p>
-        <p><span>发布时间:</span>2016-10-12, 15:06:47</p>
-        <p><span>最后更新:</span>2017-08-22, 18:14:37</p>
+        <p><span>发布时间:</span>2017-02-23, 09:10:47</p>
+        <p><span>最后更新:</span>2017-08-23, 09:56:06</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/10/12/浅谈Java反射一/" title="浅谈Java反射一">https://egoistk21.xyz/2016/10/12/浅谈Java反射一/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://egoistk21.xyz/2016/10/12/浅谈Java反射一/　　作者: EGOISTK21" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/02/23/Java笔记目录/" title="Java笔记目录">https://egoistk21.xyz/2017/02/23/Java笔记目录/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://egoistk21.xyz/2017/02/23/Java笔记目录/　　作者: EGOISTK21" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -373,16 +356,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/10/13/浅谈Java反射二/">
-                    浅谈Java反射二
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/09/29/ZigZag Conversion/">
-                    ZigZag Conversion
+                <a href="/2017/02/17/Java排序算法专题续/">
+                    Java排序算法专题续
                 </a>
             </div>
         
@@ -431,7 +408,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"浅谈Java反射一　| EGOISTK21's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"Java笔记目录　| EGOISTK21's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -447,15 +424,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/10/13/浅谈Java反射二/" title="上一篇: 浅谈Java反射二">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2016/09/29/ZigZag Conversion/" title="下一篇: ZigZag Conversion">
+            <a href="/2017/02/17/Java排序算法专题续/" title="下一篇: Java排序算法专题续">
                 <i class="fa fa-angle-right"></i>
             </a>
         
