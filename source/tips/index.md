@@ -154,8 +154,8 @@ sudo ntfsmount.sh labelname #挂载对应分区名
 | [MWeb](http://zh.mweb.im/) | 最好的技术文章编辑器 |
 | [Office](https://www.office.com/) | 办公必备 |
 | [Sublime Text 3](https://www.sublimetext.com/3) | 程序员必备纯文本编辑器 |
-| [Typera](https://www.typora.io/) | 跨平台MarkDown编辑器 |
 | [The Unarchiver](https://itunes.apple.com/cn/app/the-unarchiver/id425424353?mt=12) | 解压工具 |
+| [Typera](https://www.typora.io/) | 跨平台MarkDown编辑器 |
 | [迅雷](http://mac.xunlei.com/) | 会员加速很厉害 |
 
 ### Sublime Text 3 build 3143 License Key
