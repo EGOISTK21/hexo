@@ -6,12 +6,12 @@ date: 2017-09-12 12:35:32
 # macOS食用指南
 
 ### 抹盘重装
-* 需要 Install macOS Sierra.app、8GB至少的U盘。
+* 需要 Install macOS High Sierra.app、8GB至少的U盘。
 * 格式化U盘为 Mac OS 拓展（日志式）GUID分区表
 * 终端执行
 
 ```
-sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/U盘labelname --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction
+sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/U盘labelname --applicationpath /Applications/Install\ macOS\ High\ Sierra.app --nointeraction
 ```
 
 * 插着U盘，按住 option 键启动 Mac，选择 USB 启动盘
