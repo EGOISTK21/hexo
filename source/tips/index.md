@@ -42,7 +42,13 @@ alias proxy-on='export http_proxy=127.0.0.1:1087;export https_proxy=$http_proxy'
 alias proxy-off='unset http_proxy;unset https_proxy'
 ```
 
-保存之后，再执行 source ~/.bash_profile 然后你就可以在通过 proxy-on 和 proxy-off 来控制终端代理了。
+保存之后，再执行 
+
+```
+source ~/.bash_profile
+```
+
+然后你就可以在通过 proxy-on 和 proxy-off 来控制终端代理了。
 
 ### 安装 Xcode Command Line Tools
 * 终端执行
@@ -62,14 +68,14 @@ mkdir .ssh  #若.ssh目录已存在，可省略此步
 cat id_rsa.pub >> .ssh/authorized_keys #将公钥文件id_rsa.pub文件内容追加到authorized_keys文件
 vi ~/.ssh/config #若没有该文件，直接新建即可
 //添加文件内容格式如下：
-Host        alias #自定义别名
-    HostName        hostname  #替换为你的ssh服务器ip或domain
-    Port            port #ssh服务器端口，默认为22
-    User            user #ssh服务器用户名
-    IdentityFile    ~/.ssh/id_rsa #第一个步骤生成的公钥文件对应的私钥文件
+Host            alias #自定义别名
+HostName        hostname #替换为你的ssh服务器ip或domain
+Port            port #ssh服务器端口，默认为22
+User            user #ssh服务器用户名
+IdentityFile    ~/.ssh/id_rsa #第一个步骤生成的公钥文件对应的私钥文件
 ```
 
-保存之后就可以通过 ssh alias #alias是你在~/.ssh/config文件配置的别名 登录ssh服务器
+注意把每行注释删掉，保存之后就可以通过 ssh alias #alias是你在~/.ssh/config文件配置的别名 登录ssh服务器
 
 ### 配置git
 * 终端执行
@@ -101,9 +107,47 @@ brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch 
 * 终端执行
 
 ```
-brew install mpv
+brew install mpv --with-bundle
+brew linkapps mpv
 vi ~/.config/mpv/mpv.conf
-save-position-on-quit=yes #设置mpv记住播放位置
+
+#作者：YANG Cage
+#链接：https://www.zhihu.com/question/19552878/answer/49884947
+#来源：知乎
+
+#for intel HD4000 above
+vo=opengl-hq:icc-profile-auto
+#osd message, you can press o to display the osd message
+osd-status-msg="${time-pos/full} / ${length/full} (${percent-pos}%)"
+#makes the player window stay on top of other windows
+ontop=yes
+#always save the current playback position on quit
+save-position-on-quit=yes
+#adjust the initial window size to 50%
+geometry=50%
+#for network play
+cache=8192
+#choose the default subtitle to chinese
+slang=zh,chi
+#for GB2312 GBK BIG5 charset, use enca convert them to utf8
+sub-codepage=enca:zh:utf8
+```
+
+###hexo博客
+* Node.js
+
+```
+curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+或者
+brew install node
+```
+
+* hexo
+
+```
+#先解决国内npm缓慢
+npm config set registry http://registry.npm.taobao.org
+npm install -g hexo-cli
 ```
 
 ### 信任“任何来源”
