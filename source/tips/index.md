@@ -133,7 +133,7 @@ slang=zh,chi
 sub-codepage=enca:zh:utf8
 ```
 
-###hexo博客
+### hexo博客
 * Node.js
 
 ```

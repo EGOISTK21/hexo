@@ -15,17 +15,17 @@
 
 
 
-<meta name="description" content="macOS食用指南抹盘重装 需要 Install macOS Sierra.app、8GB至少的U盘。 格式化U盘为 Mac OS 拓展（日志式）GUID分区表 终端执行  1sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/U盘labelnam">
+<meta name="description" content="macOS食用指南抹盘重装 需要 Install macOS High Sierra.app、8GB至少的U盘。 格式化U盘为 Mac OS 拓展（日志式）GUID分区表 终端执行  1sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Tips">
 <meta property="og:url" content="https://egoistk21.xyz/tips/index.html">
 <meta property="og:site_name" content="EGOISTK21&#39;s blog">
-<meta property="og:description" content="macOS食用指南抹盘重装 需要 Install macOS Sierra.app、8GB至少的U盘。 格式化U盘为 Mac OS 拓展（日志式）GUID分区表 终端执行  1sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/U盘labelnam">
+<meta property="og:description" content="macOS食用指南抹盘重装 需要 Install macOS High Sierra.app、8GB至少的U盘。 格式化U盘为 Mac OS 拓展（日志式）GUID分区表 终端执行  1sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-14T09:28:27.715Z">
+<meta property="og:updated_time" content="2017-09-29T13:31:10.834Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tips">
-<meta name="twitter:description" content="macOS食用指南抹盘重装 需要 Install macOS Sierra.app、8GB至少的U盘。 格式化U盘为 Mac OS 拓展（日志式）GUID分区表 终端执行  1sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/U盘labelnam">
+<meta name="twitter:description" content="macOS食用指南抹盘重装 需要 Install macOS High Sierra.app、8GB至少的U盘。 格式化U盘为 Mac OS 拓展（日志式）GUID分区表 终端执行  1sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -354,11 +354,11 @@
 
           
         <h1 id="macOS食用指南"><a href="#macOS食用指南" class="headerlink" title="macOS食用指南"></a>macOS食用指南</h1><h3 id="抹盘重装"><a href="#抹盘重装" class="headerlink" title="抹盘重装"></a>抹盘重装</h3><ul>
-<li>需要 Install macOS Sierra.app、8GB至少的U盘。</li>
+<li>需要 Install macOS High Sierra.app、8GB至少的U盘。</li>
 <li>格式化U盘为 Mac OS 拓展（日志式）GUID分区表</li>
 <li>终端执行</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/U盘labelname --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/U盘labelname --applicationpath /Applications/Install\ macOS\ High\ Sierra.app --nointeraction</div></pre></td></tr></table></figure>
 <ul>
 <li>插着U盘，按住 option 键启动 Mac，选择 USB 启动盘</li>
 <li>你可以直接覆盖安装系统(升级)，也可以在磁盘工具里面格式化抹掉整个硬盘，实现全新的干净的安装。</li>
@@ -375,7 +375,9 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi ~/.bash_profile</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//这三行是Android开发的sdk配置，请忽略</div><div class="line">export ANDROID_HOME=~/Library/Android/sdk/</div><div class="line">export PATH=$PATH:$ANDROID_HOME/tools</div><div class="line">export PATH=$PATH:$ANDROID_HOME/platform-tools</div><div class="line">//这两行才是终端代理的快捷配置</div><div class="line">alias proxy-on=&apos;export http_proxy=127.0.0.1:1087;export https_proxy=$http_proxy&apos;</div><div class="line">alias proxy-off=&apos;unset http_proxy;unset https_proxy&apos;</div></pre></td></tr></table></figure>
-<p>保存之后，再执行 source ~/.bash_profile 然后你就可以在通过 proxy-on 和 proxy-off 来控制终端代理了。</p>
+<p>保存之后，再执行 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.bash_profile</div></pre></td></tr></table></figure>
+<p>然后你就可以在通过 proxy-on 和 proxy-off 来控制终端代理了。</p>
 <h3 id="安装-Xcode-Command-Line-Tools"><a href="#安装-Xcode-Command-Line-Tools" class="headerlink" title="安装 Xcode Command Line Tools"></a>安装 Xcode Command Line Tools</h3><ul>
 <li>终端执行</li>
 </ul>
@@ -383,8 +385,8 @@
 <h3 id="配置远程服务器SSH密钥认证自动登录"><a href="#配置远程服务器SSH密钥认证自动登录" class="headerlink" title="配置远程服务器SSH密钥认证自动登录"></a>配置远程服务器SSH密钥认证自动登录</h3><ul>
 <li>终端执行</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C  &apos;youremail@domain.com&apos;</div><div class="line">scp ~/.ssh/id_rsa.pub username@hostname:~/ #将公钥文件复制至ssh服务器</div><div class="line">ssh username@hostname #使用用户名和密码方式登录至ssh服务器</div><div class="line">mkdir .ssh  #若.ssh目录已存在，可省略此步</div><div class="line">cat id_rsa.pub &gt;&gt; .ssh/authorized_keys #将公钥文件id_rsa.pub文件内容追加到authorized_keys文件</div><div class="line">vi ~/.ssh/config #若没有该文件，直接新建即可</div><div class="line">//添加文件内容格式如下：</div><div class="line">Host        alias #自定义别名</div><div class="line">    HostName        hostname  #替换为你的ssh服务器ip或domain</div><div class="line">    Port            port #ssh服务器端口，默认为22</div><div class="line">    User            user #ssh服务器用户名</div><div class="line">    IdentityFile    ~/.ssh/id_rsa #第一个步骤生成的公钥文件对应的私钥文件</div></pre></td></tr></table></figure>
-<p>保存之后就可以通过 ssh alias #alias是你在~/.ssh/config文件配置的别名 登录ssh服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C  &apos;youremail@domain.com&apos;</div><div class="line">scp ~/.ssh/id_rsa.pub username@hostname:~/ #将公钥文件复制至ssh服务器</div><div class="line">ssh username@hostname #使用用户名和密码方式登录至ssh服务器</div><div class="line">mkdir .ssh  #若.ssh目录已存在，可省略此步</div><div class="line">cat id_rsa.pub &gt;&gt; .ssh/authorized_keys #将公钥文件id_rsa.pub文件内容追加到authorized_keys文件</div><div class="line">vi ~/.ssh/config #若没有该文件，直接新建即可</div><div class="line">//添加文件内容格式如下：</div><div class="line">Host            alias #自定义别名</div><div class="line">HostName        hostname #替换为你的ssh服务器ip或domain</div><div class="line">Port            port #ssh服务器端口，默认为22</div><div class="line">User            user #ssh服务器用户名</div><div class="line">IdentityFile    ~/.ssh/id_rsa #第一个步骤生成的公钥文件对应的私钥文件</div></pre></td></tr></table></figure>
+<p>注意把每行注释删掉，保存之后就可以通过 ssh alias #alias是你在~/.ssh/config文件配置的别名 登录ssh服务器</p>
 <h3 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h3><ul>
 <li>终端执行</li>
 </ul>
@@ -400,7 +402,15 @@
 <h3 id="安装MPV播放器"><a href="#安装MPV播放器" class="headerlink" title="安装MPV播放器"></a>安装MPV播放器</h3><ul>
 <li>终端执行</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">brew install mpv</div><div class="line">vi ~/.config/mpv/mpv.conf</div><div class="line">save-position-on-quit=yes #设置mpv记住播放位置</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">brew install mpv --with-bundle</div><div class="line">brew linkapps mpv</div><div class="line">vi ~/.config/mpv/mpv.conf</div><div class="line"></div><div class="line">#作者：YANG Cage</div><div class="line">#链接：https://www.zhihu.com/question/19552878/answer/49884947</div><div class="line">#来源：知乎</div><div class="line"></div><div class="line">#for intel HD4000 above</div><div class="line">vo=opengl-hq:icc-profile-auto</div><div class="line">#osd message, you can press o to display the osd message</div><div class="line">osd-status-msg=&quot;$&#123;time-pos/full&#125; / $&#123;length/full&#125; ($&#123;percent-pos&#125;%)&quot;</div><div class="line">#makes the player window stay on top of other windows</div><div class="line">ontop=yes</div><div class="line">#always save the current playback position on quit</div><div class="line">save-position-on-quit=yes</div><div class="line">#adjust the initial window size to 50%</div><div class="line">geometry=50%</div><div class="line">#for network play</div><div class="line">cache=8192</div><div class="line">#choose the default subtitle to chinese</div><div class="line">slang=zh,chi</div><div class="line">#for GB2312 GBK BIG5 charset, use enca convert them to utf8</div><div class="line">sub-codepage=enca:zh:utf8</div></pre></td></tr></table></figure>
+<h3 id="hexo博客"><a href="#hexo博客" class="headerlink" title="hexo博客"></a>hexo博客</h3><ul>
+<li>Node.js</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">curl https://raw.github.com/creationix/nvm/master/install.sh | sh</div><div class="line">或者</div><div class="line">brew install node</div></pre></td></tr></table></figure>
+<ul>
+<li>hexo</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#先解决国内npm缓慢</div><div class="line">npm config set registry http://registry.npm.taobao.org</div><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
 <h3 id="信任“任何来源”"><a href="#信任“任何来源”" class="headerlink" title="信任“任何来源”"></a>信任“任何来源”</h3><ul>
 <li>终端执行 </li>
 </ul>
@@ -478,12 +488,12 @@
 <td style="text-align:left">程序员必备纯文本编辑器</td>
 </tr>
 <tr>
-<td style="text-align:left"><a href="https://www.typora.io/" target="_blank" rel="external">Typera</a></td>
-<td style="text-align:left">跨平台MarkDown编辑器</td>
-</tr>
-<tr>
 <td style="text-align:left"><a href="https://itunes.apple.com/cn/app/the-unarchiver/id425424353?mt=12" target="_blank" rel="external">The Unarchiver</a></td>
 <td style="text-align:left">解压工具</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://www.typora.io/" target="_blank" rel="external">Typera</a></td>
+<td style="text-align:left">跨平台MarkDown编辑器</td>
 </tr>
 <tr>
 <td style="text-align:left"><a href="http://mac.xunlei.com/" target="_blank" rel="external">迅雷</a></td>
